@@ -124,9 +124,10 @@ const char* fcall_type2str(int type)
 #define _MSGDUMP(fmt...)				\
     if (mixp_dump)					\
     {							\
-	fprintf(stderr,"%s %s tag=%-5d ", 		\
+	fprintf(stderr,"%s %s %-5d tag=%-5d ", 		\
 	    (msg->mode==MsgUnpack) ? ">>":"<<",		\
 	    fcall_type2str(fcall->type), 		\
+	    (msg->end - msg->data),			\
 	    fcall->tag					\
 	);						\
 	fprintf(stderr,fmt);				\

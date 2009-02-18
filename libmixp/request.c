@@ -441,6 +441,7 @@ ixp_respond(Ixp9Req *r, const char *error) {
 	case P9_TClunk:
 		if(r->fid)
 			destroyfid(pc, r->fid->fid);
+		r->ofcall->fid = r->ifcall->fid;
 		break;
 	case P9_TFlush:
 		if((r->oldreq = mixp_intmap_lookupkey(&pc->tagmap, r->ifcall->Tflush.oldtag)))
