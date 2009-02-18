@@ -1,4 +1,16 @@
 
+---- 0.1.0.3 ----
+
+2008-05-25 Enrico Weigelt <weigelt@metux.de> [r559]
+
+    * added test prog for address parser (not built by default)
+    * cleaned up address parsing a bit
+    * added schema for unix sockets: 9p:unix://<pathname>
+    * added schema for tcp sockets:  9p:tcp://<server[:<port>]>[/[<path>]]
+    * 0.1.0.3 release
+
+---- 0.1.0.2 ----
+
 2008-05-16 Enrico Weigelt <weigelt@metux.de> [r212]
 
     * added AUTHORS file

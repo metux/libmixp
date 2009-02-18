@@ -229,6 +229,8 @@ int mixp_dial_addr(MIXP_SERVER_ADDRESS *addr)
 	{
 	    case P9_PROTO_TCP:
 		return dial_tcp_2(addr->hostname, addr->port);
+	    case P9_PROTO_UNIX:
+		return dial_unix(addr->path);
 	    default:
 		return dial_tcp_2(addr->hostname, addr->port);
 	}

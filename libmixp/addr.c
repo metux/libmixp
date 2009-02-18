@@ -18,12 +18,12 @@
 
 */
 
-static MIXP_SERVER_ADDRESS* __parse_uri(const char* addr)
+static MIXP_SERVER_ADDRESS* __parse_uri(const char* addr, const char* fulladdr, MIXP_PROTO_ID proto)
 {
     MIXP_SERVER_ADDRESS* as = calloc(1,sizeof(MIXP_SERVER_ADDRESS));
-    as->addrstr = strdup(addr);
+    as->addrstr = strdup(fulladdr);
     as->port    = -1;
-    as->proto   = P9_PROTO_TCP;
+    as->proto   = proto;
 
     char* tmp;
     char buffer[4096];	// FIXME !
@@ -55,6 +55,23 @@ static MIXP_SERVER_ADDRESS* __parse_uri(const char* addr)
     return as;
 }
 
+static MIXP_SERVER_ADDRESS* __parse_uri_unix(const char* addr, const char* fulladdr, MIXP_PROTO_ID proto)
+{
+    MIXP_SERVER_ADDRESS* as = calloc(1,sizeof(MIXP_SERVER_ADDRESS));
+    as->addrstr = strdup(fulladdr);
+    as->port    = -1;
+    as->proto   = proto;
+
+    if (addr[0]=='/')
+	while (addr[1]=='/')
+	    addr++;
+
+    as->path     = strdup(addr);
+    as->hostname = strdup("");
+    
+    return as;
+}
+
 static MIXP_SERVER_ADDRESS* __parse_old_tcp(const char* addr)
 {
     MIXP_SERVER_ADDRESS * a = calloc(1,sizeof(MIXP_SERVER_ADDRESS));
@@ -81,6 +98,15 @@ static MIXP_SERVER_ADDRESS* __parse_old_tcp(const char* addr)
     return a;
 }
 
+static inline const char* cmpprefix(const char* str, const char* prefix)
+{
+    int sz = strlen(prefix);
+    if (strncmp(str,prefix,sz)==0)
+	return str+sz;
+    else
+	return NULL;
+}
+
 MIXP_SERVER_ADDRESS* mixp_srv_addr_parse(const char* addr)
 {
     if (addr==NULL)
@@ -95,13 +121,32 @@ MIXP_SERVER_ADDRESS* mixp_srv_addr_parse(const char* addr)
 	return NULL;
     }
 
-    if (strncmp(addr,"9p://",5)==0)
-	return __parse_uri(addr+5);
-    else if (strncmp(addr,"9p:/",4)==0)
-	return __parse_uri(addr+4);
-    else if (strncmp(addr,"ninep://",8)==0)
-	return __parse_uri(addr+8);
-    else if (strncmp(addr,"tcp!",4)==0)
+    const char* c;
+
+    // --- try different URI schemes ---
+        
+    // simple 9p:// scheme for implicit tcp
+    if ((c=cmpprefix(addr,"9p://")))
+	return __parse_uri(c, addr, P9_PROTO_TCP);
+
+    // explicit tcp
+    if ((c=cmpprefix(addr,"9p:tcp://")))
+	return __parse_uri(c, addr, P9_PROTO_TCP);
+    if ((c=cmpprefix(addr,"9p:tcp:/")))
+	return __parse_uri(c, addr, P9_PROTO_TCP);
+	
+    // explicit unix
+    if (strncmp(addr,"9p:unix:/",9)==0)
+	return __parse_uri_unix(addr+8, addr, P9_PROTO_UNIX);
+
+    // shortcut 9p:/ scheme - implicit unix
+    if ((c=cmpprefix(addr,"9p:/")))
+	return __parse_uri(c, addr, P9_PROTO_TCP);
+
+    if ((c=cmpprefix(addr,"ninep://")))
+	return __parse_uri(c, addr, P9_PROTO_TCP);
+
+    if (strncmp(addr,"tcp!",4)==0)
 	return __parse_old_tcp(addr+4);
 
     fprintf(stderr,"could not parse address \"%s\"\n", addr);
