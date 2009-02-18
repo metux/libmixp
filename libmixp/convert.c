@@ -453,5 +453,15 @@ mixp_pstat(MIXP_MESSAGE *msg, MIXP_STAT *stat) {
 	mixp_pstring(msg, &stat->gid);
 	mixp_pstring(msg, &stat->muid);
 
+	// fix NULL values
+	if (stat->name == NULL)
+	    stat->name = strdup("");
+	if (stat->uid == NULL)
+	    stat->uid = strdup("");
+	if (stat->gid == NULL)
+	    stat->gid = strdup("");
+	if (stat->muid == NULL)
+	    stat->muid = strdup("");
+
 	return 0;
 }

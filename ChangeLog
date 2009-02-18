@@ -1,4 +1,10 @@
 
+---- 0.1.0.4 ----
+
+2008-06-01 Enrico Weigelt <weigelt@metux.de> [r569]
+
+    * added NULL string fixes in mixp_pstat()
+
 ---- 0.1.0.3 ----
 
 2008-05-25 Enrico Weigelt <weigelt@metux.de> [r559]
@@ -7,7 +13,6 @@
     * cleaned up address parsing a bit
     * added schema for unix sockets: 9p:unix://<pathname>
     * added schema for tcp sockets:  9p:tcp://<server[:<port>]>[/[<path>]]
-    * 0.1.0.3 release
 
 ---- 0.1.0.2 ----
 
@@ -15,7 +20,6 @@
 
     * added AUTHORS file
     * fixed broken dependency to pthread (now: libc-pthread)
-    * 0.1.0.2 release
 
 2008-05-14 Enrico Weigelt <weigelt@metux.de> [r208]
 	
