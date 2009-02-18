@@ -1,0 +1,11 @@
+prefix=@PREFIX@
+exec_prefix=${prefix}
+libdir=@LIBDIR@
+includedir=@INCLUDEDIR@
+
+Name: libmixp
+Description: 9P2000 protocol library
+Requires: libc-pthread
+Version: @VERSION@
+Libs: -L${libdir} -lmixp
+Cflags: -I${includedir}

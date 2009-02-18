@@ -1,0 +1,6 @@
+.svn
+*.o
+*.pc
+*.so
+*.a
+cmd/ixpc

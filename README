@@ -1,0 +1,49 @@
+Abstract
+--------
+libmixp is an tiny 9p2000 library which originally came from the
+"window manager improved-improved" package [1], which provides 
+an X11 window manager with 9P-based[2] remote control.
+
+This package now provides an standalone library no dependencies
+(besides the usual build tools ;-)), building as shared object
+and as static/ar as well, including an pkg-config descriptor.
+
+
+Requirements
+------------
+An common GNU environment should work well. Other *nix'es may also
+work, but not tested. Please report if you tried other targts than
+GNU/Linux.
+
+
+Installation
+------------
+
+To build, simply run:
+	make
+
+To install, run the following, as root, if necessary:
+	make install
+
+Some parameters can be specified via environment:
+
+    DESTDIR	 the destination prefix on installation (ie. for packaging)
+    PREFIX	 (fhs-style) install dir prefix (default: /usr)
+    LIBDIR	 (fhs-style) library dir        (default: $PREFIX/lib)
+    INCLUDEDIR	 (fhs-style) include dir        (default: $PREFIX/include)
+    PKGCONFIGDIR directory for the .pc file     (default: $LIBDIR/pkgconfig)
+    CC		 path to the C compiler (may need GNU semantics)
+    AR           path to the ar tool
+    RANLIB       path to the ranlib tool
+
+
+Tesing libmixp
+-------------
+
+The package contains an minimalistic test client in the cmd/ subdir.
+It's not built automatically. Just chdir to cmd/ and run make.
+
+References
+----------
+[1] http://www.suckless.org/
+[2] http://www.cs.bell-labs.com/sys/man/5/INDEX.html 
