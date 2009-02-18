@@ -17,7 +17,7 @@
 #define fatal(...) ixp_eprint("ixpc: fatal: " __VA_ARGS__); \
 
 char *argv0;
-#define ARGBEGIN int _argi, _argtmp, _inargv=0; char *_argv; \
+#define ARGBEGIN int _argi=0, _argtmp=0, _inargv=0; char *_argv=NULL; \
 		if(!argv0)argv0=ARGF(); _inargv=1; \
 		while(argc && argv[0][0] == '-') { \
 			_argi=1; _argv=*argv++; argc--; \
@@ -96,8 +96,9 @@ str_of_mode(unsigned int mode) {
 static char *
 str_of_time(unsigned int val) {
 	static char buf[32];
+	time_t tv = val;
 
-	ctime_r((time_t*)&val, buf);
+	ctime_r(&tv, buf);
 	buf[strlen(buf) - 1] = '\0';
 	return buf;
 }

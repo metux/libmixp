@@ -1,0 +1,17 @@
+
+2008-05-16 Enrico Weigelt <weigelt@metux.de> [r212]
+
+    * added AUTHORS file
+    * fixed broken dependency to pthread (now: libc-pthread)
+    * 0.1.0.2 release
+
+2008-05-14 Enrico Weigelt <weigelt@metux.de> [r208]
+	
+    * fixed compiler warning on using long* as time_t* (explicit conversion via buffer var)
+    * fixed a few compiler warnings about uninitialized variables in example client)
+    * added soname to the .so output (ebuild was whining about "poor QA" ;-o)
+    * added explicit linking to libc (to make .so deps more clear)
+    * transport.c: moved _size variable to within (normally disabled) #ifdef to fix unused variable warning
+
+---- 0.1.0.1 release ----
+

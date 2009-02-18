@@ -56,9 +56,8 @@ readn(int fd, MIXP_MESSAGE *msg, size_t count) {
 size_t mixp_sendmsg(int fd, MIXP_MESSAGE *msg) {
 	int r;
 
-	int _size = msg->end - msg->data;
-
 #ifdef _DEBUG
+	int _size = msg->end - msg->data;
 	printf("sending: size=%d\n", _size);
 	unsigned char* buf = (unsigned char*)msg->data;
 	int x=0;

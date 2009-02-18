@@ -353,7 +353,7 @@ mixp_pstring(MIXP_MESSAGE *msg, char **s) {
 
 void
 mixp_pstrings(MIXP_MESSAGE *msg, unsigned short *num, char *strings[]) {
-	char *s;
+	char *s = NULL;		// suppress compiler warning. YES, it's really okay (look carefully ;-P)
 	unsigned int i, size;
 	unsigned short len;
 

@@ -26,6 +26,6 @@ install-includes:	include/9p-mixp/*.h
 install:	install-pkgconfig install-includes install-lib
 
 clean:	
-	rm -f *.o *.a *.so libmixp.pc
+	rm -f *.o *.a *.so *.pc
 	make -C libmixp clean
 	make -C cmd clean

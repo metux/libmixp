@@ -7,6 +7,7 @@ PREFIX?=/usr
 LIBDIR?=$(PREFIX)/lib
 INCLUDEDIR?=$(PREFIX)/include
 PKGCONFIGDIR?=$(LIBDIR)/pkgconfig
+PKG_CONFIG?=pkg-config
 AR?=ar
 RANLIB?=ranlib
 CFLAGS+=-Wall
@@ -21,11 +22,8 @@ CFLAGS+=-Wall
 %.a:
 	$(AR) cr $@ $^ && $(RANLIB) $@
 
-#%.so:
-#	$(LD) -o $@ -soname $(SONAME) -shared $^
-
 %.so:
-	$(LD) -o $@ -shared $^
+	$(LD) -o $@ -shared $^ -soname $(SONAME) -lc -no-undefined $(LIBS)
 
 %.nopic.o:	%.c
 	$(CC) -o $@ -c $< $(CFLAGS)
