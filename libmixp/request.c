@@ -405,9 +405,9 @@ ixp_respond(Ixp9Req *r, const char *error) {
 			r->fid->qid = r->ofcall->Rcreate.qid;
 		}
 		MIXP_FREE(r->ifcall->Tcreate.name)
-		printf("P9_TOpen: rmsg.size=%d\n", pc->rmsg.size);
+//		printf("P9_TOpen: rmsg.size=%d\n", pc->rmsg.size);
 		r->ofcall->Rcreate.iounit = pc->rmsg.size - 16;
-		printf("P9_TOpen: sending iounit: %d\n", r->ofcall->Rcreate.iounit);
+//		printf("P9_TOpen: sending iounit: %d\n", r->ofcall->Rcreate.iounit);
 		break;
 	case P9_TCreate:
 		if(!error) {
