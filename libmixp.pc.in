@@ -5,7 +5,6 @@ includedir=@INCLUDEDIR@
 
 Name: libmixp
 Description: 9P2000 protocol library
-Requires: libc-pthread
 Version: @VERSION@
-Libs: -L${libdir} -lmixp
+Libs: -L${libdir} -lmixp -lpthread
 Cflags: -I${includedir}

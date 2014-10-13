@@ -9,8 +9,8 @@ OBJNAMES=client convert intmap message request socket transport util error rpc t
 NOPIC_OBJ = $(addsuffix .nopic.o,$(OBJNAMES))
 PIC_OBJ   = $(addsuffix .pic.o,$(OBJNAMES))
 
-PTHREAD_LIBS=`$(PKG_CONFIG) --libs libc-pthread`
-PTHREAD_CFLAGS=`$(PKG_CONFIG) --cflags libc-pthread`
+PTHREAD_LIBS?=-lpthread
+PTHREAD_CFLAGS?=
 
 CFLAGS+=-I../include $(PTHREAD_CFLAGS)
 LIBS+=$(PTHREAD_LIBS)
