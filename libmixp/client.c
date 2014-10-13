@@ -347,7 +347,7 @@ initfid(MIXP_CFID *f, IxpFcall *fcall)
 	
 	if (f->iounit < 0)
 	{
-//	    fprintf(mixp_error_stream,"initfid() iounit <0: %d .. fixing to %d\n", f->iounit, DEFAULT_IOUNIT);
+//	    fprintf(mixp_error_stream,"initfid() iounit <0: %ld .. fixing to %d\n", (long)f->iounit, DEFAULT_IOUNIT);
 	    f->iounit=DEFAULT_IOUNIT;
 	}    
 }
@@ -487,7 +487,7 @@ static long _pread(MIXP_CFID *f, void *buf, size_t count, int64_t offset)
 
 		if (retfcall->Rread.count > n)
 		{
-			fprintf(mixp_error_stream,"MIXP: _pread() received more (%d) than requested (%d)\n", retfcall->Rread.count, n);
+			fprintf(mixp_error_stream,"MIXP: _pread() received more (%ld) than requested (%ld)\n", (long)retfcall->Rread.count, (long)n);
 			goto err;
 		}
 

@@ -124,7 +124,7 @@ const char* fcall_type2str(int type)
 #define _MSGDUMP(fmt...)				\
     if (mixp_dump)					\
     {							\
-	fprintf(stderr,"%s %s %-5d tag=%-5d ", 		\
+	fprintf(stderr,"%s %s %-5ld tag=%-5d ",		\
 	    (msg->mode==MsgUnpack) ? ">>":"<<",		\
 	    fcall_type2str(fcall->type), 		\
 	    (msg->end - msg->data),			\
@@ -215,54 +215,54 @@ ixp_pfcall(MIXP_MESSAGE *msg, IxpFcall *fcall)
 		break;
 	case P9_ROpen:
 		mixp_pqid(msg, &fcall->Ropen.qid);
-		mixp_pu32(msg, &fcall->Ropen.iounit);
-		_MSGDUMP("iounit=%d", fcall->Ropen.iounit);
+		mixp_psize(msg, &fcall->Ropen.iounit);
+		_MSGDUMP("iounit=%ld", (long)fcall->Ropen.iounit);
 		break;
 	case P9_RCreate:
 		mixp_pqid(msg, &fcall->Rcreate.qid);
-		mixp_pu32(msg, &fcall->Rcreate.iounit);
-		_MSGDUMP("iounit=%d", fcall->Rcreate.iounit);
+		mixp_psize(msg, &fcall->Rcreate.iounit);
+		_MSGDUMP("iounit=%ld", (long)fcall->Rcreate.iounit);
 		break;
 	case P9_TCreate:
 		mixp_pu32(msg, &fcall->fid);
 		mixp_pstring(msg, &fcall->Tcreate.name);
 		mixp_pu32(msg, &fcall->Tcreate.perm);
 		mixp_pu8(msg, &fcall->Tcreate.mode);
-		_MSGDUMP("fid=%d name=\"%s\" perm=%d mode=%d", fcall->fid, fcall->Tcreate.name, fcall->Tcreate.perm, fcall->Tcreate.mode);
+		_MSGDUMP("fid=%ld name=\"%s\" perm=%ld mode=%ld", (long)fcall->fid, fcall->Tcreate.name, (long)fcall->Tcreate.perm, (long)fcall->Tcreate.mode);
 		break;
 	case P9_TRead:
 		mixp_pu32(msg, &fcall->fid);
 		mixp_pu64(msg, &fcall->Tread.offset);
-		mixp_pu32(msg, &fcall->Tread.count);
-		_MSGDUMP("fid=%d offset=%llu count=%u", fcall->fid, fcall->Tread.offset, fcall->Tread.count);
+		mixp_psize(msg, &fcall->Tread.count);
+		_MSGDUMP("fid=%ld offset=%llu count=%ld", (long)fcall->fid, (long long unsigned int)fcall->Tread.offset, (long)fcall->Tread.count);
 		break;
 	case P9_RRead:
-		mixp_pu32(msg, &fcall->Rread.count);
+		mixp_psize(msg, &fcall->Rread.count);
 		mixp_pdata(msg, &fcall->Rread.data, fcall->Rread.count);
-		_MSGDUMP("count=%d", fcall->Rread.count);
+		_MSGDUMP("count=%ld", (long)fcall->Rread.count);
 		break;
 	case P9_TWrite:
 		mixp_pu32(msg, &fcall->fid);
 		mixp_pu64(msg, &fcall->Twrite.offset);
-		mixp_pu32(msg, &fcall->Twrite.count);
+		mixp_psize(msg, &fcall->Twrite.count);
 		mixp_pdata(msg, &fcall->Twrite.data, fcall->Twrite.count);
-		_MSGDUMP("fid=%u offset=%llu count=%u", fcall->fid, fcall->Twrite.offset, fcall->Twrite.count);
+		_MSGDUMP("fid=%u offset=%llu count=%ld", fcall->fid, (long long unsigned int)fcall->Twrite.offset, (long)fcall->Twrite.count);
 		break;
 	case P9_RWrite:
-		mixp_pu32(msg, &fcall->Rwrite.count);
-		_MSGDUMP("count=%d", fcall->Rwrite.count);
+		mixp_psize(msg, &fcall->Rwrite.count);
+		_MSGDUMP("count=%ld", (long)fcall->Rwrite.count);
 		break;
 	case P9_RClunk:
 		mixp_pu32(msg, &fcall->fid);
-		_MSGDUMP("fid=%d", fcall->fid);
+		_MSGDUMP("fid=%ld", (long)fcall->fid);
 		break;
 	case P9_TClunk:
 		mixp_pu32(msg, &fcall->fid);
-		_MSGDUMP("fid=%d", fcall->fid);
+		_MSGDUMP("fid=%ld", (long)fcall->fid);
 		break;
 	case P9_TRemove:
 		mixp_pu32(msg, &fcall->fid);
-		_MSGDUMP("fid=%d", fcall->fid);
+		_MSGDUMP("fid=%ld", (long)fcall->fid);
 		break;
 	case P9_TStat:
 		mixp_pu32(msg, &fcall->fid);
@@ -271,16 +271,16 @@ ixp_pfcall(MIXP_MESSAGE *msg, IxpFcall *fcall)
 	case P9_RStat:
 		mixp_pu16(msg, &fcall->Rstat.nstat);
 		mixp_pdata(msg, (char**)&fcall->Rstat.stat, fcall->Rstat.nstat);
-		_MSGDUMP("nstat=%d", fcall->Rstat.nstat);
+		_MSGDUMP("nstat=%ld", (long)fcall->Rstat.nstat);
 		break;
 	case P9_TWStat:
 		mixp_pu32(msg, &fcall->fid);
 		mixp_pu16(msg, &fcall->Twstat.nstat);
 		mixp_pdata(msg, (char**)&fcall->Twstat.stat, fcall->Twstat.nstat);
-		_MSGDUMP("fid=%d nstat=%d", fcall->fid, fcall->Twstat.nstat);
+		_MSGDUMP("fid=%ld nstat=%ld", (long)fcall->fid, (long)fcall->Twstat.nstat);
 		break;
 	default:
-		_MSGDUMP(" unhandled type %d", fcall->type);
+		_MSGDUMP(" unhandled type %ld", (long)fcall->type);
 	}
 }
 
@@ -301,7 +301,7 @@ ixp_fcall2msg(MIXP_MESSAGE *msg, IxpFcall *fcall)
 	size = msg->end - msg->data;
 
 	msg->pos = msg->data;
-	mixp_pu32(msg, &size);
+	mixp_psize(msg, &size);
 
 	msg->pos = msg->data;
 	return size;

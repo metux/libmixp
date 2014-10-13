@@ -229,10 +229,10 @@ void serve_9pcon(MIXP_CONNECTION *c);
 
 /* message.c */
 size_t mixp_stat_sizeof(MIXP_STAT *stat);
-MIXP_MESSAGE mixp_message(char *data, unsigned int length, unsigned int mode);
+MIXP_MESSAGE mixp_message(char *data, size_t length, unsigned int mode);
 void mixp_fcall_free(IxpFcall *fcall);
-unsigned int ixp_msg2fcall(MIXP_MESSAGE *msg, IxpFcall *fcall);
-unsigned int ixp_fcall2msg(MIXP_MESSAGE *msg, IxpFcall *fcall);
+size_t ixp_msg2fcall(MIXP_MESSAGE *msg, IxpFcall *fcall);
+size_t ixp_fcall2msg(MIXP_MESSAGE *msg, IxpFcall *fcall);
 
 /* server.c */
 MIXP_CONNECTION *ixp_listen(MIXP_SERVER *s, int fd, void *aux,

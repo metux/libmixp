@@ -107,7 +107,7 @@ static void
 print_stat(MIXP_STAT *s, int details) {
 	if(details)
 		fprintf(stdout, "%s %s %s %5llu %s %s\n", str_of_mode(s->mode),
-				s->uid, s->gid, s->length, str_of_time(s->mtime), s->name);
+				s->uid, s->gid, (long long unsigned int)s->length, str_of_time(s->mtime), s->name);
 	else {
 		if((s->mode&P9_DMDIR) && strcmp(s->name, "/"))
 			fprintf(stdout, "%s/\n", s->name);

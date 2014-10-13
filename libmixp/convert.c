@@ -158,7 +158,7 @@ void mixp_pu64_store(MIXP_MESSAGE* msg, uint64_t val)
 	    packtext[0] = p0;
 #ifdef _DEBUG
 	    fprintf(stderr,"mixp_pu64_store() val=%llu text=%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X\n", 
-		v, 
+		(long long unsigned int)v,
 		packtext[0],
 		packtext[1],
 		packtext[2],
@@ -255,7 +255,7 @@ uint64_t mixp_pu64_load(MIXP_MESSAGE* msg)
 
 #ifdef _DEBUG
 	fprintf(stderr,"mixp_pu64_load() value=%llu text=%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X\n",
-	    v,
+	    (long long unsigned int)v,
 	    buf[0],
 	    buf[1],
 	    buf[2],
@@ -302,7 +302,16 @@ mixp_pu32(MIXP_MESSAGE *msg, uint32_t *val)
 
 void
 mixp_psize(MIXP_MESSAGE *msg, size_t *val) {
-	mixp_pu32(msg,val);
+	if (msg->mode == MsgPack)
+	{
+		uint32_t sz = (uint32_t)*val;
+		mixp_pu32_store(msg, sz);
+	}
+	else
+	{
+		uint32_t sz = mixp_pu32_load(msg);
+		*val = (size_t)sz;
+	}
 }
 
 void
