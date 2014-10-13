@@ -250,7 +250,6 @@ int mixp_announce(const char *address);
 
 /* util.c */
 void *ixp_erealloc(void *ptr, unsigned int size);
-void ixp_eprint(const char *fmt, ...);
 unsigned int ixp_tokenize(char **result, unsigned int reslen, char *str, char delim);
 
 extern int   mixp_dump;

@@ -62,7 +62,7 @@ rfalse(MIXP_RENDEZ *r) {
 static void
 rsleep(MIXP_RENDEZ *r) {
 	USED(r);
-	ixp_eprint("rsleep called when not implemented\n");
+	fprintf(stderr, "libmixp: rsleep() not implemented\n");
 }
 
 static MIXP_THREAD ixp_nothread = {

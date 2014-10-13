@@ -14,7 +14,7 @@
 #include <9p-mixp/convert.h>
 
 /* Temporary */
-#define fatal(...) ixp_eprint("ixpc: fatal: " __VA_ARGS__); \
+#define fatal(...) if (1) { fprintf(stderr, "ixpc: fatal: " __VA_ARGS__); } \
 
 char *argv0;
 #define ARGBEGIN int _argi=0, _argtmp=0, _inargv=0; char *_argv=NULL; \

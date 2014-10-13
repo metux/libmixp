@@ -9,26 +9,6 @@
 #include <malloc.h>
 #include "mixp_local.h"
 
-void
-ixp_eprint(const char *fmt, ...) {
-	va_list ap;
-	int err;
-
-	err = errno;
-	fprintf(stderr, "libixp: fatal: ");
-
-	va_start(ap, fmt);
-	vfprintf(stderr, fmt, ap);
-	va_end(ap);
-
-	if(fmt[strlen(fmt)-1] == ':')
-		fprintf(stderr, " %s\n", strerror(err));
-	else
-		fprintf(stderr, "\n");
-
-	exit(1);
-}
-
 /* Can't malloc */
 static void
 ixp_mfatal(char *name, unsigned int size) {
