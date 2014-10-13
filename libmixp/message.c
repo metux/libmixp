@@ -50,7 +50,9 @@ mixp_fcall_free(IxpFcall *fcall)
 {
     if (fcall == NULL)
     {
-//	fprintf(stderr,"mixp_fcall_free() got an NULL pointer\n");
+#ifdef DEBUG
+	fprintf(mixp_debug_stream,"mixp_fcall_free() got an NULL pointer\n");
+#endif
 	return;
     }
 
@@ -70,7 +72,7 @@ mixp_fcall_free(IxpFcall *fcall)
 		break;
     }
 #ifdef _DEBUG
-    fprintf(stderr,"WARN: incomplete mixp_fcall_free()\n");
+    fprintf(mixp_debug_stream,"WARN: incomplete mixp_fcall_free()\n");
 #endif
 //    MIXP_FREE(fcall);
 }
@@ -124,14 +126,14 @@ const char* fcall_type2str(int type)
 #define _MSGDUMP(fmt...)				\
     if (mixp_dump)					\
     {							\
-	fprintf(stderr,"%s %s %-5ld tag=%-5d ",		\
+	fprintf(mixp_debug_stream,"%s %s %-5ld tag=%-5d ",	\
 	    (msg->mode==MsgUnpack) ? ">>":"<<",		\
 	    fcall_type2str(fcall->type), 		\
 	    (msg->end - msg->data),			\
 	    fcall->tag					\
 	);						\
-	fprintf(stderr,fmt);				\
-	fprintf(stderr,"\n");				\
+	fprintf(mixp_debug_stream,fmt);			\
+	fprintf(mixp_debug_stream,"\n");		\
     }
 
 void
@@ -140,13 +142,14 @@ ixp_pfcall(MIXP_MESSAGE *msg, IxpFcall *fcall)
 	mixp_pu8(msg, &fcall->type);
 	mixp_pu16(msg, &fcall->tag);
 
-/*
-	printf("ixp_pfcall() %s tag=%d type=%d %s\n", 
+#ifdef DEBUG
+	fprintf(mixp_debug_stream, "ixp_pfcall() %s tag=%d type=%d %s\n",
 	    ((msg->mode==MsgPack) ? "PACK" : ((msg->mode==MsgUnpack) ? "UNPACK" : "???")),
 	    fcall->tag, 
 	    fcall->type, 
 	    fcall_type2str(fcall->type));
-*/
+#endif
+
 	switch (fcall->type) {
 	case P9_TVersion:
 		mixp_pu32(msg, &fcall->Tversion.msize);

@@ -73,7 +73,9 @@ static IxpFcall* do_fcall(MIXP_CLIENT* c, IxpFcall* fcall)
 	ret = muxrpc(c, fcall);
 	if(ret == NULL)
 	{
-//		fprintf(mixp_error_stream,"MIXP: fcall without reply\n");
+#ifdef DEBUG
+		fprintf(mixp_debug_stream,"MIXP: fcall without reply\n");
+#endif
 		return NULL;
 	}
 
@@ -341,13 +343,17 @@ initfid(MIXP_CFID *f, IxpFcall *fcall)
 	
 	if (!(f->iounit))
 	{
-//	    fprintf(mixp_error_stream,"initfid() iounit missing. fixing to %d\n", DEFAULT_IOUNIT);
+#ifdef DEBUG
+	    fprintf(mixp_debug_stream,"initfid() iounit missing. fixing to %d\n", DEFAULT_IOUNIT);
+#endif
 	    f->iounit=DEFAULT_IOUNIT;
 	}
 	
 	if (f->iounit < 0)
 	{
-//	    fprintf(mixp_error_stream,"initfid() iounit <0: %ld .. fixing to %d\n", (long)f->iounit, DEFAULT_IOUNIT);
+#ifdef DEBUG
+	    fprintf(mixp_error_stream,"initfid() iounit <0: %ld .. fixing to %d\n", (long)f->iounit, DEFAULT_IOUNIT);
+#endif
 	    f->iounit=DEFAULT_IOUNIT;
 	}    
 }

@@ -309,13 +309,17 @@ xls(int argc, char *argv[]) {
 			fprintf(stderr,"id=%d stat->name=%s -> uid=%s\n", nstat-1, stat[nstat-1].name, stat[nstat-1].uid);
 		}
 	}
-	
+
+#ifdef DEBUG
 	fprintf(stderr,"YYY id=%d stat->name=%s -> uid=%s\n", nstat-1, stat[nstat-1].name, stat[nstat-1].uid);
-//	fprintf(stderr,"AAA id=0 stat->name=%s -> uid=%s\n", 0, stat[1].name, stat[0].uid);
+	fprintf(stderr,"AAA id=0 stat->name=%s -> uid=%s\n", 0, stat[1].name, stat[0].uid);
+#endif
 //	qsort(stat, nstat, sizeof(*stat), comp_stat);
 	for(i = 0; i < nstat; i++) {
 		fprintf(stderr,"1111 --> %s\n",stat[i].name);
-//		print_stat(&stat[i], lflag);
+#ifdef DEBUG
+		print_stat(&stat[i], lflag);
+#endif
 		fprintf(stderr,"0000\n");
 //		mixp_stat_free(&stat[i]);
 	}

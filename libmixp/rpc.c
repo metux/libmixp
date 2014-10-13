@@ -113,12 +113,12 @@ dispatchandqlock(MIXP_CLIENT *mux, IxpFcall *f)
 	mixp_thread->lock(&mux->lk);
 	/* hand packet to correct sleeper */
 	if(tag < 0 || tag >= mux->mwait) {
-		fprintf(stderr, "libixp: recieved unfeasible tag: %d (min: %d, max: %d)\n", f->tag, mux->mintag, mux->mintag+mux->mwait);
+		fprintf(mixp_error_stream, "libixp: recieved unfeasible tag: %d (min: %d, max: %d)\n", f->tag, mux->mintag, mux->mintag+mux->mwait);
 		goto fail;
 	}
 	r2 = mux->wait[tag];
 	if((r2 == NULL) || (r2->prev == NULL)) {
-		fprintf(stderr, "libixp: recieved message with bad tag\n");
+		fprintf(mixp_error_stream, "libixp: recieved message with bad tag\n");
 		goto fail;
 	}
 	r2->p = f;

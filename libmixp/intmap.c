@@ -67,7 +67,9 @@ void mixp_intmap_exec(MIXP_INTMAP *map, void (*run)(void*))
 		{
 			mixp_thread->runlock(&map->lk);
 			nlink = p->link;
-//			printf("execmap: [%s] hid=%d id=%d aux=%ld\n", map->name, i, p->id, p->aux);
+#ifdef DEBUG
+			fprintf(mixp_debug_stream,"execmap: [%s] hid=%ld id=%ld aux=%ld\n", map->name, (long)i, (long)p->id, (long)p->aux);
+#endif
 			run(p->aux);
 			mixp_thread->rlock(&map->lk);
 		}
@@ -94,7 +96,9 @@ void * mixp_intmap_lookupkey(MIXP_INTMAP *map, unsigned long id)
 {
 	void *v;
 
-//	printf("mixp_intmap_lookupkey [%s] id=%d\n", map->name, id);
+#ifdef DEBUG
+	fprintf(mixp_debug_stream,"mixp_intmap_lookupkey [%s] id=%ld\n", map->name, (long)id);
+#endif
 	mixp_thread->rlock(&map->lk);
 	v = __real_lookupkey(map,id);
 	mixp_thread->runlock(&map->lk);
@@ -110,8 +114,10 @@ static void * __real_insertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 	while (elem)
 	{
 		if (elem->id==id)
-	        {
-//			printf("insertkey [%s] updating id=%d addr=%ld value=%ld\n", map->name, id, elem, value);
+		{
+#ifdef DEBUG
+			fprintf(mixp_debug_stream,"insertkey [%s] updating id=%ld addr=%ld value=%ld\n", map->name, (long)id, (long)elem, (long)value);
+#endif
 			ov = elem->aux;
 			elem->aux=value;
 			return ov;
@@ -125,14 +131,19 @@ static void * __real_insertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 	elem->magic = 666777;
 	map->hash[hid] = elem;
 
-//	printf("insertkey() [%s] added elem: id=%d addr=%ld value=%ld next=%ld\n",
-//	    map->name, id, elem, value, elem->link);	
+#ifdef DEBUG
+	fprintf(mixp_debug_stream,"insertkey() [%s] added elem: id=%ld addr=%ld value=%ld next=%ld\n",
+	    map->name, (long)id, (long)elem, (long)value, (long)elem->link);
+#endif
+
 	return NULL;
 }
 
 void * mixp_intmap_insertkey(MIXP_INTMAP *map, unsigned long id, void* value) 
 {
-//	printf("insertkey [%s] id=%d value=%ld\n", map->name, id, value);
+#ifdef DEBUG
+	fprintf(mixp_debug_stream,"insertkey [%s] id=%ld value=%ld\n", map->name, (long)id, (long)value);
+#endif
 
 	void* ov;
 	mixp_thread->wlock(&map->lk);
@@ -159,8 +170,10 @@ static int __real_caninsertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 	elem->link     = map->hash[hid];
 	elem->magic    = 777666;
 	map->hash[hid] = elem;
-    
-//	printf("caninsertkey [%s] added: id=%d elem=%ld nextelem=%ld nn=%ld\n", map->name, id, elem, elem->link,map->hash[hid]->link);
+
+#ifdef DEBUG
+	fprintf(mixp_debug_stream,"caninsertkey [%s] added: id=%ld elem=%ld nextelem=%ld nn=%ld\n", map->name, (long)id, (long)elem, (long)elem->link, (long)map->hash[hid]->link);
+#endif
 	return 1;
 }
 
@@ -181,7 +194,9 @@ static void* __real_deletekey(MIXP_INTMAP* map, unsigned long id)
 
 	if (!(elem = map->hash[hid]))
 	{
-//		printf("branch %d not existing. nothing to do\n",hid);
+#ifdef DEBUG
+		fprintf(mixp_debug_stream,"branch %ld not existing. nothing to do\n", (long)hid);
+#endif
 		return NULL;
 	}
 	
@@ -189,29 +204,38 @@ static void* __real_deletekey(MIXP_INTMAP* map, unsigned long id)
 	{
 		/* the first in line is our element */
 		ov = elem->aux;
-//		printf("deletekey [%s] hid=%d id=%d\n", map->name, hid, id);
-//		printf("  -> deleting first in line: %ld (magic %d). next is: %ld\n", elem, elem->magic, elem->link);
+#ifdef DEBUG
+		fprintf(mixp_debug_stream,"deletekey [%s] hid=%ld id=%ld\n", map->name, (long)hid, (long)id);
+		fprintf(mixp_debug_stream,"  -> deleting first in line: %ld (magic %ld). next is: %ld\n", (long)elem, (long)elem->magic, (long)elem->link);
+#endif
 		map->hash[hid] = elem->link;
 		elem->aux = NULL;
 		MIXP_FREE(elem);
-//		printf(" --> now first: %ld\n", map->hash[hid]);
+#ifdef DEBUG
+		fprintf(mixp_debug_stream," --> now first: %ld\n", (long)map->hash[hid]);
+#endif
 		return ov;
 	}
 
-//	printf("deletekey [%s] id=%d hid=%d firstelem=%ld magic=%d\n", map->name,id,hid,elem, elem->magic);
+#ifdef DEBUG
+	fprintf(mixp_debug_stream,"deletekey [%s] id=%ld hid=%ld firstelem=%ld magic=%ld\n", map->name, (long)id, (long)hid, (long)elem, (long)elem->magic);
+#endif
 
 	Intlist *next;
 	while ((next = elem->link))
 	{
-//		printf("trying next: %ld\n", next);
-//		printf(" -> next->id=%d\n", next->id);
-
+#ifdef DEBUG
+		fprintf(mixp_debug_stream,"trying next: %ld\n", (long)next);
+		fprintf(mixp_debug_stream," -> next->id=%ld\n", (long)next->id);
+#endif
 		/* found it somewhere later in line */
 		if (next->id == id)
 		{
 			ov = next->aux;
 			elem->link = next->link;
-//			printf("deleting somewhere. next is %ld\n", next->link);
+#ifdef DEBUG
+			fprintf(mixp_debug_stream,"deleting somewhere. next is %ld\n", (long)next->link);
+#endif
 			next->aux = NULL;
 			MIXP_FREE(next);
 		}

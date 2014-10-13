@@ -53,7 +53,7 @@ ixp_listen(MIXP_SERVER *s, int fd, void *aux,
 
 	if (s==NULL)
 	{
-	    fprintf(stderr,"ixp_listen() NULL server struct passed\n");
+	    fprintf(mixp_error_stream,"ixp_listen() NULL server struct passed\n");
 	    return NULL;
 	}
 

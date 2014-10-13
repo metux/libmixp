@@ -345,11 +345,13 @@ main(int argc, char *argv[]) {
 	if (!addr)
 		fatal("Could not parse address\n");
 
-//	printf("addr.hostname=\"%s\"\n", addr->hostname);
-//	printf("addr.port=\"%d\"\n", addr->port);
-//	printf("addr.path=\"%s\"\n", addr->path);
-//	printf("addr.proto=\"%d\"\n", addr->proto);
-	
+#ifdef DEBUG
+	fprintf(stderr, "addr.hostname=\"%s\"\n", addr->hostname);
+	fprintf(stderr, "addr.port=\"%d\"\n", addr->port);
+	fprintf(stderr, "addr.path=\"%s\"\n", addr->path);
+	fprintf(stderr, "addr.proto=\"%d\"\n", addr->proto);
+#endif
+
 	client = mixp_mount_addr(addr);
 	
 	if (!client)

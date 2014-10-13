@@ -91,8 +91,8 @@ void mixp_pu8_store(MIXP_MESSAGE* msg, uint8_t val)
 
 	    packtext[0] = p0;
 #ifdef _DEBUG
-	    printf("mixp_pu8_store() val=%d text=%02X\n", 
-		v, 
+	    fprintf(mixp_debug_stream, "mixp_pu8_store() val=%d text=%02X\n",
+		v,
 		packtext[0]);
 #endif
 	}
@@ -118,8 +118,8 @@ void mixp_pu32_store(MIXP_MESSAGE* msg, uint32_t val)
 	    packtext[1] = p1;
 	    packtext[0] = p0;
 #ifdef _DEBUG
-	    printf("mixp_pu32_store() val=%d text=%02X:%02X:%02X:%02X\n", 
-		v, 
+	    fprintf(mixp_debug_stream, "mixp_pu32_store() val=%d text=%02X:%02X:%02X:%02X\n",
+		v,
 		packtext[0],
 		packtext[1],
 		packtext[2],
@@ -157,7 +157,7 @@ void mixp_pu64_store(MIXP_MESSAGE* msg, uint64_t val)
 	    packtext[1] = p1;
 	    packtext[0] = p0;
 #ifdef _DEBUG
-	    fprintf(stderr,"mixp_pu64_store() val=%llu text=%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X\n", 
+	    fprintf(mixp_debug_stream,"mixp_pu64_store() val=%llu text=%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X\n",
 		(long long unsigned int)v,
 		packtext[0],
 		packtext[1],
@@ -187,8 +187,8 @@ void mixp_pu16_store(MIXP_MESSAGE* msg, uint16_t val)
 	    packtext[1] = p1;
 	    packtext[0] = p0;
 #ifdef _DEBUG
-	    printf("mixp_pu16_store() val=%d text=%02X:%02X\n", 
-		v, 
+	    fprintf(mixp_debug_stream, "mixp_pu16_store() val=%d text=%02X:%02X\n",
+		v,
 		packtext[1],
 		packtext[0]);
 #endif
@@ -204,7 +204,7 @@ uint8_t mixp_pu8_load(MIXP_MESSAGE* msg)
 	    unsigned char* packtext = (unsigned char*)msg->pos;
 	    v |= packtext[0];
 #ifdef _DEBUG
-	    printf("mixp_pu8_load() val=%d text=%02X\n", v, packtext[0]);
+	    fprintf(mixp_debug_stream, "mixp_pu8_load() val=%d text=%02X\n", v, packtext[0]);
 #endif
 	}
 	msg->pos += SByte;
@@ -224,7 +224,7 @@ uint32_t mixp_pu32_load(MIXP_MESSAGE* msg)
 	v |= buf[1]<<8;
 	v |= buf[0];
 #ifdef _DEBUG
-	printf("mixp_pu32_load() value=%d text=%02X:%02X:%02X:%02X\n",
+	fprintf(mixp_debug_stream, "mixp_pu32_load() value=%d text=%02X:%02X:%02X:%02X\n",
 	    v,
 	    buf[0],
 	    buf[1],
@@ -254,7 +254,7 @@ uint64_t mixp_pu64_load(MIXP_MESSAGE* msg)
 	    ((uint64_t)buf[7]<<52);
 
 #ifdef _DEBUG
-	fprintf(stderr,"mixp_pu64_load() value=%llu text=%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X\n",
+	fprintf(mixp_debug_stream,"mixp_pu64_load() value=%llu text=%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X\n",
 	    (long long unsigned int)v,
 	    buf[0],
 	    buf[1],
@@ -281,7 +281,7 @@ uint16_t mixp_pu16_load(MIXP_MESSAGE* msg)
 	v |= buf[1]<<8;
 	v |= buf[0];
 #ifdef _DEBUG
-	printf("mixp_pu16_load() value=%d text=%02X:%02X\n",
+	fprintf(mixp_debug_stream, "mixp_pu16_load() value=%d text=%02X:%02X\n",
 	    v,
 	    buf[1],
 	    buf[0]);
@@ -442,7 +442,7 @@ mixp_pstat(MIXP_MESSAGE *msg, MIXP_STAT *stat) {
 	
 	if (stat==NULL)
 	{
-	    fprintf(stderr,"mixp_pstat() stat ptr NULL\n");
+	    fprintf(mixp_error_stream,"mixp_pstat() stat ptr NULL\n");
 	    return -1;
 	}
 

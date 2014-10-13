@@ -84,7 +84,7 @@ createfid(MIXP_INTMAP *map, int fid, Ixp9Conn *pc) {
 	f->map = map;
 	if(mixp_intmap_caninsertkey(map, fid, f))
 		return f;
-	fprintf(stderr,"couldnt insert key (already exists): %d\n",fid);
+	fprintf(mixp_error_stream,"couldnt insert key (already exists): %d\n",fid);
 	MIXP_FREE(f)
 	return NULL;
 }
@@ -159,7 +159,7 @@ handlefcall(MIXP_CONNECTION *c)
 	pc->conn  = c;
 
 	if(!mixp_intmap_caninsertkey(&pc->tagmap, req->ifcall->tag, req)) {
-		fprintf(stderr,"duplicate tag: %d\n", req->ifcall->tag);
+		fprintf(mixp_error_stream,"duplicate tag: %d\n", req->ifcall->tag);
 		ixp_respond(req, Eduptag);
 		decref_p9conn(pc);
 		return;
@@ -187,7 +187,7 @@ handlereq(Ixp9Req *r)
 
 	if (r->ifcall == NULL)
 	{
-	    fprintf(stderr,"EMERG: handlereq() r->ifcall corrupt\n");
+	    fprintf(mixp_error_stream,"EMERG: handlereq() r->ifcall corrupt\n");
 	    return;
 	}
 
@@ -203,20 +203,20 @@ handlereq(Ixp9Req *r)
 			r->ofcall->Rversion.version = "9P2000";
 		else
 		{	
-			fprintf(stderr,"handlereq() TVersion: unknown version requested \"%s\"\n", r->ifcall->Tversion.version);
+			fprintf(mixp_error_stream,"handlereq() TVersion: unknown version requested \"%s\"\n", r->ifcall->Tversion.version);
 			r->ofcall->Rversion.version = "unknown";
 		}
 		r->ofcall->Rversion.msize = r->ifcall->Tversion.msize;
 		if (r->ofcall->Rversion.msize == 0)
 		{
-		    fprintf(stderr,"handlereq() TVersion: got zero msize. setting to default: %d\n", IXP_MAX_MSG);
+		    fprintf(mixp_error_stream,"handlereq() TVersion: got zero msize. setting to default: %d\n", IXP_MAX_MSG);
 		    r->ofcall->Rversion.msize = IXP_MAX_MSG;
 		}
 		ixp_respond(r, NULL);
 		break;
 	    case P9_TAttach:
 		if(!(r->fid = createfid(&pc->fidmap, r->ifcall->fid, pc))) {
-			fprintf(stderr,"TAttach: duplicate fid\n");
+			fprintf(mixp_error_stream,"TAttach: duplicate fid\n");
 			ixp_respond(r, Edupfid);
 			return;
 		}
@@ -382,7 +382,7 @@ ixp_respond(Ixp9Req *r, const char *error) {
 		msize = min(r->ofcall->Rversion.msize, IXP_MAX_MSG);
 		if (msize<1)
 		{
-		    fprintf(stderr,"ixp_respond() P9_TVersion: msize<1 ! tweaking to IXP_MAX_MSG\n");
+		    fprintf(mixp_error_stream,"ixp_respond() P9_TVersion: msize<1 ! tweaking to IXP_MAX_MSG\n");
 		    msize = IXP_MAX_MSG;
 		}
 		pc->rmsg.data = ixp_erealloc(pc->rmsg.data, msize);
@@ -487,8 +487,10 @@ static void
 voidrequest(void *t) {
 	Ixp9Req *r, *tr;
 	Ixp9Conn *pc;
-	
-//	printf("voidrequest: t=%ld\n", t);
+
+#ifdef DEBUG
+	fprintf(mixp_debug_stream, "voidrequest: t=%ld\n", (long)t);
+#endif
 
 	r = t;
 	pc = r->conn;

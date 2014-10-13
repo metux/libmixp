@@ -149,7 +149,7 @@ MIXP_SERVER_ADDRESS* mixp_srv_addr_parse(const char* addr)
     if (strncmp(addr,"tcp!",4)==0)
 	return __parse_old_tcp(addr+4);
 
-    fprintf(stderr,"could not parse address \"%s\"\n", addr);
+    fprintf(mixp_error_stream,"could not parse address \"%s\"\n", addr);
     return NULL;
 }
 
