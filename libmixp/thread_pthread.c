@@ -10,7 +10,7 @@ static MIXP_THREAD ixp_pthread;
 static pthread_key_t errstr_k;
 
 int
-ixp_pthread_init() {
+mixp_pthread_init() {
 	int ret;
 
 	ret = pthread_key_create(&errstr_k, free);
