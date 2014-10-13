@@ -50,7 +50,7 @@ static int
 sock_unix(const char *address, sockaddr_un *sa, socklen_t *salen) {
 	int fd;
 
-	memset(sa, 0, sizeof(sa));
+	memset(sa, 0, sizeof(*sa));
 
 	sa->sun_family = AF_UNIX;
 	strncpy(sa->sun_path, address, sizeof(sa->sun_path));
@@ -75,7 +75,7 @@ sock_tcp_2(const char *host, int port, sockaddr_in *sa) {
 	if(fd < 0)
 		return -1;
 
-	memset(sa, 0, sizeof(sa));
+	memset(sa, 0, sizeof(*sa));
 	sa->sin_family = AF_INET;
 	sa->sin_port = htons(port);
 
