@@ -42,7 +42,7 @@ enum {
 struct MIXP_9CONN {
 	MIXP_INTMAP	tagmap;
 	MIXP_INTMAP	fidmap;
-	Ixp9Srv		*srv;
+	MIXP_SRV_OPS	*srv;
 	MIXP_CONNECTION	*conn;
 	MIXP_MUTEX	rlock, wlock;
 	MIXP_MESSAGE	rmsg;
@@ -180,7 +180,7 @@ static void
 handlereq(Ixp9Req *r) 
 {
 	MIXP_9CONN *pc;
-	Ixp9Srv *srv;
+	MIXP_SRV_OPS *srv;
 
 	pc = r->conn;
 	srv = pc->srv;

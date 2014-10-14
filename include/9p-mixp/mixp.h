@@ -84,7 +84,7 @@ enum {
 
 typedef struct MIXP_9CONN MIXP_9CONN;
 typedef struct Ixp9Req Ixp9Req;
-typedef struct Ixp9Srv Ixp9Srv;
+typedef struct MIXP_SRV_OPS MIXP_SRV_OPS;
 typedef struct MIXP_CFID MIXP_CFID;
 typedef struct MIXP_CLIENT MIXP_CLIENT;
 typedef struct MIXP_CONNECTION MIXP_CONNECTION;
@@ -181,7 +181,7 @@ struct MIXP_FID {
 };
 
 struct Ixp9Req {
-	Ixp9Srv	 *srv;
+	MIXP_SRV_OPS	*srv;
 	MIXP_FID	*fid;
 	MIXP_FID	*newfid;
 	Ixp9Req	 *oldreq;
@@ -193,7 +193,7 @@ struct Ixp9Req {
 	MIXP_9CONN	*conn;
 };
 
-struct Ixp9Srv {
+struct MIXP_SRV_OPS {
 	void *aux;
 	void (*attach)(Ixp9Req *r);
 	void (*clunk)(Ixp9Req *r);
