@@ -9,6 +9,9 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <stdio.h>
+
+#include <9p-mixp/bits.h>
+
 #include "mixp_local.h"
 
 int ixp_serversock_tcp(const char* addr, int port, char** errstr)

@@ -1,8 +1,12 @@
+
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+
+#include <9p-mixp/bits.h>
 #include <9p-mixp/err.h>
+
 #include "mixp_local.h"
 
 /* Approach to errno handling taken from Plan 9 Port. */

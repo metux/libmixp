@@ -6,7 +6,10 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+
+#include <9p-mixp/bits.h>
 #include <9p-mixp/mixp.h>
+
 #include "util.h"
 
 static MIXP_CLIENT *client;

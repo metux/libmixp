@@ -8,6 +8,8 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+
+#include <9p-mixp/bits.h>
 #include <9p-mixp/mixp.h>
 #include <9p-mixp/err.h>
 #include <9p-mixp/stat.h>

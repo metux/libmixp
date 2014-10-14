@@ -1,4 +1,8 @@
+
 #include <unistd.h>
+
+#include <9p-mixp/bits.h>
+
 #include "mixp_local.h"
 
 static MIXP_THREAD ixp_nothread;

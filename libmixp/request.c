@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include "mixp_local.h"
 
+#include <9p-mixp/bits.h>
 #include <9p-mixp/transport.h>
 #include <9p-mixp/intmap.h>
 

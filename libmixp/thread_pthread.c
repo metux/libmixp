@@ -2,7 +2,10 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#include <9p-mixp/bits.h>
 #include <9p-mixp/err.h>
+
 #include "mixp_local.h"
 #include "mixp_pthread.h"
 

@@ -10,6 +10,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "mixp_local.h"
+
+#include <9p-mixp/bits.h>
 #include <9p-mixp/stat.h>
 #include <9p-mixp/err.h>
 #include <9p-mixp/convert.h>
