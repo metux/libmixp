@@ -530,7 +530,7 @@ cleanupconn(MIXP_CONNECTION *c) {
 
 /* Handle incoming 9P connections */
 void
-serve_9pcon(MIXP_CONNECTION *c) {
+mixp_serve_conn(MIXP_CONNECTION *c) {
 	MIXP_9CONN *pc;
 	int fd;
 

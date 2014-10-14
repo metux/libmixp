@@ -225,7 +225,7 @@ int         mixp_close(MIXP_CFID *f);
 
 /* request.c */
 void mixp_respond(MIXP_REQUEST *r, const char *error);
-void serve_9pcon(MIXP_CONNECTION *c);
+void mixp_serve_conn(MIXP_CONNECTION *c);
 
 /* message.c */
 size_t mixp_stat_sizeof(MIXP_STAT *stat);
