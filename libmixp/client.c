@@ -92,29 +92,6 @@ static IxpFcall* do_fcall(MIXP_CLIENT* c, IxpFcall* fcall)
 	return ret;
 }
 
-static int
-dofcall(MIXP_CLIENT *c, IxpFcall *fcall) {
-	IxpFcall *ret;
-    
-	ret = muxrpc(c, fcall);
-	if(ret == NULL)
-		return 0;
-	if(ret->type == P9_RError) {
-		mixp_werrstr("%s", ret->Rerror.ename);
-		goto fail;
-	}
-	if(ret->type != (fcall->type^1)) {
-		mixp_werrstr("received mismatched fcall");
-		goto fail;
-	}
-	memcpy(fcall, ret, sizeof(IxpFcall));
-	MIXP_FREE(ret);
-	return 1;
-fail:
-	mixp_fcall_free(fcall);
-	return 0;
-}
-
 void
 mixp_unmount(MIXP_CLIENT *c) {
 	MIXP_CFID *f;
