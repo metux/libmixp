@@ -367,7 +367,7 @@ mixp_pstrings(MIXP_MESSAGE *msg, unsigned short *num, char *strings[]) {
 	unsigned short len;
 
 	mixp_pu16(msg, num);
-	if(*num > IXP_MAX_WELEM) {
+	if(*num > MIXP_MAX_WELEM) {
 		msg->pos = msg->end+1;
 		return;
 	}
@@ -427,7 +427,7 @@ mixp_pqids(MIXP_MESSAGE *msg, unsigned short *num, MIXP_QID qid[]) {
 	int i;
 
 	mixp_pu16(msg, num);
-	if(*num > IXP_MAX_WELEM) {
+	if(*num > MIXP_MAX_WELEM) {
 		msg->pos = msg->end+1;
 		return;
 	}

@@ -29,7 +29,7 @@ errbuf(void) {
 
 	ret = pthread_getspecific(errstr_k);
 	if(ret == NULL) {
-		ret = calloc(1,IXP_ERRMAX);
+		ret = calloc(1,MIXP_MAX_ERROR);
 		pthread_setspecific(errstr_k, (void*)ret);
 	}
 	return ret;

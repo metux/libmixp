@@ -126,7 +126,7 @@ announce_unix(const char *file) {
 		goto fail;
 
 	chmod(file, S_IRWXU);
-	if(listen(fd, IXP_MAX_CACHE) < 0)
+	if(listen(fd, MIXP_MAX_CACHE) < 0)
 		goto fail;
 
 	return fd;
@@ -174,7 +174,7 @@ announce_tcp(const char *host) {
 	if(bind(fd, (sockaddr*)&sa, sizeof(sa)) < 0)
 		goto fail;
 
-	if(listen(fd, IXP_MAX_CACHE) < 0)
+	if(listen(fd, MIXP_MAX_CACHE) < 0)
 		goto fail;
 
 	return fd;

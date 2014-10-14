@@ -6,7 +6,7 @@ MIXP_THREAD *mixp_thread = &ixp_nothread;
 
 static char*
 errbuf() {
-	static char errbuf[IXP_ERRMAX];
+	static char errbuf[MIXP_MAX_ERROR];
 
 	return errbuf;
 }

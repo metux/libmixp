@@ -209,8 +209,8 @@ handlereq(MIXP_REQUEST *r)
 		r->ofcall->Rversion.msize = r->ifcall->Tversion.msize;
 		if (r->ofcall->Rversion.msize == 0)
 		{
-		    fprintf(mixp_error_stream,"handlereq() TVersion: got zero msize. setting to default: %d\n", IXP_MAX_MSG);
-		    r->ofcall->Rversion.msize = IXP_MAX_MSG;
+		    fprintf(mixp_error_stream,"handlereq() TVersion: got zero msize. setting to default: %d\n", MIXP_MAX_MSG);
+		    r->ofcall->Rversion.msize = MIXP_MAX_MSG;
 		}
 		mixp_respond(r, NULL);
 		break;
@@ -379,11 +379,11 @@ mixp_respond(MIXP_REQUEST *r, const char *error) {
 		MIXP_FREE(r->ifcall->Tversion.version);		// move this to mixp_fcall_free()
 		mixp_thread->lock(&pc->rlock);
 		mixp_thread->lock(&pc->wlock);
-		msize = min(r->ofcall->Rversion.msize, IXP_MAX_MSG);
+		msize = min(r->ofcall->Rversion.msize, MIXP_MAX_MSG);
 		if (msize<1)
 		{
-		    fprintf(mixp_error_stream,"mixp_respond() P9_TVersion: msize<1 ! tweaking to IXP_MAX_MSG\n");
-		    msize = IXP_MAX_MSG;
+		    fprintf(mixp_error_stream,"mixp_respond() P9_TVersion: msize<1 ! tweaking to MIXP_MAX_MSG\n");
+		    msize = MIXP_MAX_MSG;
 		}
 		pc->rmsg.data = ixp_erealloc(pc->rmsg.data, msize);
 		pc->wmsg.data = ixp_erealloc(pc->wmsg.data, msize);
@@ -496,7 +496,7 @@ voidrequest(void *t) {
 	pc = r->conn;
 	tr = mixp_9req_alloc(pc);
 	tr->ifcall->type = P9_TFlush;
-	tr->ifcall->tag = IXP_NOTAG;
+	tr->ifcall->tag = MIXP_NOTAG;
 	tr->ifcall->Tflush.oldtag = r->ifcall->tag;
 	handlereq(tr);
 }
@@ -508,7 +508,7 @@ voidfid(void *t) {
 	MIXP_9CONN *pc = f->conn;
 	MIXP_REQUEST* tr = mixp_9req_alloc(pc);
 	tr->ifcall->type = P9_TClunk;
-	tr->ifcall->tag = IXP_NOTAG;
+	tr->ifcall->tag = MIXP_NOTAG;
 	tr->ifcall->fid = f->fid;
 	tr->fid = f;
 	handlereq(tr);

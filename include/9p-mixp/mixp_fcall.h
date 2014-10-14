@@ -61,11 +61,11 @@ struct MIXP_FCALL {
 		struct { /* Twalk */
 			unsigned int	newfid;
 			unsigned short	nwname;
-			char	*wname[IXP_MAX_WELEM];
+			char	*wname[MIXP_MAX_WELEM];
 		} Twalk;
 		struct { /* Rwalk */
 			unsigned short	nwqid;
-			MIXP_QID	wqid[IXP_MAX_WELEM];
+			MIXP_QID	wqid[MIXP_MAX_WELEM];
 		} Rwalk;
 
 		struct { /* Twrite */

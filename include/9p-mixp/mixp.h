@@ -21,18 +21,18 @@
 #include <9p-mixp/qid.h>
 #include <9p-mixp/stat.h>
 
-#define IXP_VERSION	"9P2000"
-#define IXP_NOTAG	((unsigned short)~0)	/* Dummy tag */
-#define IXP_NOFID	(~0U)
+#define MIXP_VERSION	"9P2000"
+#define MIXP_NOTAG	((unsigned short)~0)	/* Dummy tag */
+#define MIXP_NOFID	(~0U)
 
 enum {
-	IXP_MAX_VERSION = 32,
-	IXP_MAX_MSG = 8192,
-	IXP_MAX_ERROR = 128,
-	IXP_MAX_CACHE = 32,
-	IXP_MAX_FLEN = 128,
-	IXP_MAX_ULEN = 32,
-	IXP_MAX_WELEM = 16,
+	MIXP_MAX_VERSION = 32,
+	MIXP_MAX_MSG = 8192,
+	MIXP_MAX_ERROR = 128,
+	MIXP_MAX_CACHE = 32,
+	MIXP_MAX_FLEN = 128,
+	MIXP_MAX_ULEN = 32,
+	MIXP_MAX_WELEM = 16,
 };
 
 /* from libc.h in p9p */
@@ -92,11 +92,6 @@ typedef struct MIXP_FCALL MIXP_FCALL;
 typedef struct MIXP_FID MIXP_FID;
 typedef struct MIXP_RPC MIXP_RPC;
 typedef struct MIXP_SERVER MIXP_SERVER;
-
-/* Threading */
-enum {
-	IXP_ERRMAX = IXP_MAX_ERROR,
-};
 
 #include <9p-mixp/mixp_fcall.h>
 

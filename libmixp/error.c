@@ -19,19 +19,19 @@ mixp_errbuf() {
 
 	errbuf = mixp_thread->errbuf();
 	if(errno == EINTR)
-		strncpy(errbuf, "interrupted", IXP_ERRMAX);
+		strncpy(errbuf, "interrupted", MIXP_MAX_ERROR);
 	else if(errno != EPLAN9)
-		strncpy(errbuf, strerror(errno), IXP_ERRMAX);
+		strncpy(errbuf, strerror(errno), MIXP_MAX_ERROR);
 	return errbuf;
 }
 
 void
 mixp_errstr(char *buf, int n) {
-	char tmp[IXP_ERRMAX];
+	char tmp[MIXP_MAX_ERROR];
 
 	strncpy(tmp, buf, sizeof(tmp));
 	mixp_rerrstr(buf, n);
-	strncpy(mixp_thread->errbuf(), tmp, IXP_ERRMAX);
+	strncpy(mixp_thread->errbuf(), tmp, MIXP_MAX_ERROR);
 	errno = EPLAN9;
 }
 
@@ -42,13 +42,12 @@ mixp_rerrstr(char *buf, int n) {
 
 void
 mixp_werrstr(char *fmt, ...) {
-	char tmp[IXP_ERRMAX];
+	char tmp[MIXP_MAX_ERROR];
 	va_list ap;
 
 	va_start(ap, fmt);
 	vsnprintf(tmp, sizeof(tmp), fmt, ap);
 	va_end(ap);
-	strncpy(mixp_thread->errbuf(), tmp, IXP_ERRMAX);
+	strncpy(mixp_thread->errbuf(), tmp, MIXP_MAX_ERROR);
 	errno = EPLAN9;
 }
-

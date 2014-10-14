@@ -34,7 +34,7 @@ int ixp_serversock_tcp(const char* addr, int port, char** errstr)
 	return -1;
     }
     
-    if (listen(fd, IXP_MAX_CACHE)<0)
+    if (listen(fd, MIXP_MAX_CACHE)<0)
     {
 	*errstr = "cannot listen on socket";
     	close(fd);

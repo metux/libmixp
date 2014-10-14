@@ -133,12 +133,12 @@ mixp_mountfd(int fd) {
 	allocmsg(c, 256);
 	c->lastfid = RootFid;
 	/* Override tag matching on P9_TVersion */
-	c->mintag = IXP_NOTAG;
-	c->maxtag = IXP_NOTAG+1;
+	c->mintag = MIXP_NOTAG;
+	c->maxtag = MIXP_NOTAG+1;
 
 	fcall->type = P9_TVersion;
-	fcall->Tversion.msize = IXP_MAX_MSG;
-	fcall->Tversion.version = IXP_VERSION;
+	fcall->Tversion.msize = MIXP_MAX_MSG;
+	fcall->Tversion.version = MIXP_VERSION;
 
 	if ((retfcall = do_fcall(c, fcall))==NULL)
 	{
@@ -147,8 +147,8 @@ mixp_mountfd(int fd) {
 		return NULL;
 	}
 
-	if(strcmp(retfcall->Rversion.version, IXP_VERSION) || 
-	          retfcall->Rversion.msize > IXP_MAX_MSG) {
+	if(strcmp(retfcall->Rversion.version, MIXP_VERSION) ||
+	          retfcall->Rversion.msize > MIXP_MAX_MSG) {
 		mixp_werrstr("bad 9P version response");
 		mixp_unmount(c);
 		mixp_fcall_free(fcall);
@@ -168,7 +168,7 @@ mixp_mountfd(int fd) {
 
 	fcall->type = P9_TAttach;
 	fcall->fid = RootFid;
-	fcall->Tattach.afid = IXP_NOFID;
+	fcall->Tattach.afid = MIXP_NOFID;
 	fcall->Tattach.uname = getenv("USER");
 	fcall->Tattach.aname = "";
 	if((retfcall = do_fcall(c, fcall)) == NULL) {
@@ -315,7 +315,7 @@ initfid(MIXP_CFID *f, MIXP_FCALL *fcall)
 
 	f->open = 1;
 	f->offset = 0;
-	f->iounit = min(fcall->Ropen.iounit, IXP_MAX_MSG-17);
+	f->iounit = min(fcall->Ropen.iounit, MIXP_MAX_MSG-17);
 	f->qid = fcall->Ropen.qid;
 	
 	if (!(f->iounit))
