@@ -46,7 +46,7 @@ mixp_stat_free(MIXP_STAT *s) {
 }
 
 void
-mixp_fcall_free(IxpFcall *fcall) 
+mixp_fcall_free(MIXP_FCALL *fcall)
 {
     if (fcall == NULL)
     {
@@ -137,7 +137,7 @@ const char* fcall_type2str(int type)
     }
 
 void
-ixp_pfcall(MIXP_MESSAGE *msg, IxpFcall *fcall) 
+ixp_pfcall(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
 {	
 	mixp_pu8(msg, &fcall->type);
 	mixp_pu16(msg, &fcall->tag);
@@ -288,7 +288,7 @@ ixp_pfcall(MIXP_MESSAGE *msg, IxpFcall *fcall)
 }
 
 size_t
-ixp_fcall2msg(MIXP_MESSAGE *msg, IxpFcall *fcall) 
+ixp_fcall2msg(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
 {
 	size_t size;
 
@@ -311,7 +311,7 @@ ixp_fcall2msg(MIXP_MESSAGE *msg, IxpFcall *fcall)
 }
 
 size_t
-ixp_msg2fcall(MIXP_MESSAGE *msg, IxpFcall *fcall) 
+ixp_msg2fcall(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
 {
 	msg->pos = msg->data + SDWord;
 	msg->mode = MsgUnpack;

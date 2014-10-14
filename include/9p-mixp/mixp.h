@@ -88,7 +88,7 @@ typedef struct Ixp9Srv Ixp9Srv;
 typedef struct MIXP_CFID MIXP_CFID;
 typedef struct MIXP_CLIENT MIXP_CLIENT;
 typedef struct MIXP_CONNECTION MIXP_CONNECTION;
-typedef struct IxpFcall IxpFcall;
+typedef struct MIXP_FCALL MIXP_FCALL;
 typedef struct MIXP_FID MIXP_FID;
 typedef struct MIXP_RPC MIXP_RPC;
 typedef struct MIXP_SERVER MIXP_SERVER;
@@ -127,7 +127,7 @@ struct MIXP_RPC {
 	MIXP_RPC *prev;
 	MIXP_RENDEZ r;
 	unsigned int tag;
-	IxpFcall *p;
+	MIXP_FCALL	*p;
 	int waiting;
 	int async;
 };
@@ -185,8 +185,8 @@ struct Ixp9Req {
 	MIXP_FID	*fid;
 	MIXP_FID	*newfid;
 	Ixp9Req	 *oldreq;
-	IxpFcall *ifcall;
-	IxpFcall *ofcall;
+	MIXP_FCALL	*ifcall;
+	MIXP_FCALL	*ofcall;
 	void	 *aux;
 
 	/* Implementation details */
@@ -230,9 +230,9 @@ void serve_9pcon(MIXP_CONNECTION *c);
 /* message.c */
 size_t mixp_stat_sizeof(MIXP_STAT *stat);
 MIXP_MESSAGE mixp_message(char *data, size_t length, unsigned int mode);
-void mixp_fcall_free(IxpFcall *fcall);
-size_t ixp_msg2fcall(MIXP_MESSAGE *msg, IxpFcall *fcall);
-size_t ixp_fcall2msg(MIXP_MESSAGE *msg, IxpFcall *fcall);
+void mixp_fcall_free(MIXP_FCALL *fcall);
+size_t ixp_msg2fcall(MIXP_MESSAGE *msg, MIXP_FCALL *fcall);
+size_t ixp_fcall2msg(MIXP_MESSAGE *msg, MIXP_FCALL *fcall);
 
 /* server.c */
 MIXP_CONNECTION *ixp_listen(MIXP_SERVER *s, int fd, void *aux,

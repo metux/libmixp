@@ -108,8 +108,8 @@ destroyfid(MIXP_9CONN *pc, unsigned long fid) {
 Ixp9Req* mixp_9req_alloc(MIXP_9CONN *conn)
 {
 	Ixp9Req * req = (Ixp9Req*) calloc(1,sizeof(Ixp9Req));
-	req->ifcall   = (IxpFcall*)calloc(1,sizeof(IxpFcall));
-	req->ofcall   = (IxpFcall*)calloc(1,sizeof(IxpFcall));
+	req->ifcall   = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
+	req->ofcall   = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 	
 	if (conn)
 	{
@@ -149,7 +149,7 @@ handlefcall(MIXP_CONNECTION *c)
 	if(mixp_recvmsg(c->fd, &pc->rmsg) == 0)
 		goto Fail;
 		
-	// decode incoming packet to to req->ifcall (IxpFcall)
+	// decode incoming packet to to req->ifcall (MIXP_FCALL)
 	if(ixp_msg2fcall(&pc->rmsg, req->ifcall) == 0)
 		goto Fail;
 	

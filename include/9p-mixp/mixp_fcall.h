@@ -2,7 +2,7 @@
 #define __MIXP_FCALL_H
 
 /* from fcall(3) in plan9port */
-struct IxpFcall {
+struct MIXP_FCALL {
 	unsigned char type;
 	unsigned short tag;
 	unsigned int fid;

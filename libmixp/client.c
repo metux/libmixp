@@ -66,9 +66,9 @@ putfid(MIXP_CFID *f) {
 	mixp_thread->unlock(&c->lk);
 }
 
-static IxpFcall* do_fcall(MIXP_CLIENT* c, IxpFcall* fcall)
+static MIXP_FCALL *do_fcall(MIXP_CLIENT *c, MIXP_FCALL *fcall)
 {
-	IxpFcall *ret;
+	MIXP_FCALL *ret;
 	__init_errstream();
 	ret = muxrpc(c, fcall);
 	if(ret == NULL)
@@ -122,8 +122,8 @@ allocmsg(MIXP_CLIENT *c, int n) {
 MIXP_CLIENT *
 mixp_mountfd(int fd) {
 	MIXP_CLIENT *c;
-	IxpFcall* fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
-	IxpFcall* retfcall = NULL;
+	MIXP_FCALL *fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
+	MIXP_FCALL *retfcall = NULL;
 
 	c = calloc(1,sizeof(*c));
 	c->fd = fd;
@@ -164,7 +164,7 @@ mixp_mountfd(int fd) {
 	mixp_fcall_free(fcall);
 	mixp_fcall_free(retfcall);
 	
-	fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
+	fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 
 	fcall->type = P9_TAttach;
 	fcall->fid = RootFid;
@@ -207,8 +207,8 @@ walk(MIXP_CLIENT *c, const char *pathname) {
 	MIXP_CFID *f;
 	int n;
 
-	IxpFcall* fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
-	IxpFcall* retfcall = NULL;
+	MIXP_FCALL *fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
+	MIXP_FCALL *retfcall = NULL;
 
 	char* path = strdup(pathname);
 	n = ixp_tokenize(fcall->Twalk.wname, nelem(fcall->Twalk.wname), path, '/');
@@ -261,8 +261,8 @@ walkdir(MIXP_CLIENT *c, char *path, char **rest) {
 static int
 clunk(MIXP_CFID *f) {
 	MIXP_CLIENT *c;
-	IxpFcall* fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
-	IxpFcall* retfcall = NULL;
+	MIXP_FCALL *fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
+	MIXP_FCALL *retfcall = NULL;
 
 	c = f->client;
 
@@ -289,11 +289,11 @@ mixp_remove(MIXP_CLIENT *c, const char *path)
 	if((f = walk(c, path)) == NULL)
 		return 0;
 
-	IxpFcall *fcall = calloc(1,sizeof(IxpFcall));
+	MIXP_FCALL *fcall = calloc(1,sizeof(MIXP_FCALL));
 	fcall->type = P9_TRemove;
 	fcall->fid  = f->fid;
 
-	IxpFcall *retfcall = NULL;
+	MIXP_FCALL *retfcall = NULL;
 	if ((retfcall = do_fcall(c, fcall))==NULL)
 	{
 	    mixp_fcall_free(fcall);
@@ -309,7 +309,7 @@ mixp_remove(MIXP_CLIENT *c, const char *path)
 }
 
 static void
-initfid(MIXP_CFID *f, IxpFcall *fcall) 
+initfid(MIXP_CFID *f, MIXP_FCALL *fcall)
 {
 	__init_errstream();
 
@@ -348,14 +348,14 @@ mixp_create(MIXP_CLIENT *c, const char *filename, unsigned int perm, unsigned ch
 		MIXP_FREE(name);
 	}
 
-	IxpFcall *fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
+	MIXP_FCALL *fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 	fcall->type = P9_TCreate;
 	fcall->fid = f->fid;
 	fcall->Tcreate.name = name;
 	fcall->Tcreate.perm = perm;
 	fcall->Tcreate.mode = mode;
 
-	IxpFcall* retfcall;
+	MIXP_FCALL *retfcall;
 	if ((retfcall = do_fcall(c, fcall)) == NULL) 
 	{
 		clunk(f);
@@ -379,13 +379,13 @@ mixp_open(MIXP_CLIENT *c, const char *name, unsigned char mode)
 	if(f == NULL)
 		return NULL;
 
-	IxpFcall* fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
+	MIXP_FCALL *fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 	fcall->type       = P9_TOpen;
 	fcall->fid        = f->fid;
 	fcall->Topen.mode = mode;
 
-	IxpFcall* retfcall;
-	
+	MIXP_FCALL *retfcall;
+
 	if ((retfcall=do_fcall(c, fcall)) == NULL) 
 	{
 		clunk(f);
@@ -417,11 +417,11 @@ mixp_stat(MIXP_CLIENT *c, const char *path)
 	if(f == NULL)
 		return NULL;
 
-	IxpFcall* fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
+	MIXP_FCALL *fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 	fcall->type = P9_TStat;
 	fcall->fid = f->fid;
-	
-	IxpFcall* retfcall;
+
+	MIXP_FCALL *retfcall;
 	if((retfcall = do_fcall(c, fcall))==NULL)
 		goto done;
 
@@ -446,15 +446,15 @@ static long _pread(MIXP_CFID *f, void *buf, size_t count, int64_t offset)
 {
 	__init_errstream();
 
-	IxpFcall* fcall = NULL;
-	IxpFcall* retfcall = NULL;
+	MIXP_FCALL *fcall = NULL;
+	MIXP_FCALL *retfcall = NULL;
 	int len = 0;
 	while(len < count)
 	{
 		mixp_fcall_free(fcall);		fcall = NULL;
 		mixp_fcall_free(retfcall);	retfcall = NULL;
 
-		fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
+		fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 		int n = min(count-len, f->iounit);
 
 		fcall->type = P9_TRead;
@@ -518,8 +518,8 @@ static long _pwrite(MIXP_CFID *f, const void *buf, long count, int64_t offset)
 	len = 0;
 	do 
 	{
-		IxpFcall* fcall = (IxpFcall*)calloc(1,sizeof(IxpFcall));
-		IxpFcall* retfcall = NULL;
+		MIXP_FCALL *fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
+		MIXP_FCALL *retfcall = NULL;
 
 		n = min(count-len, f->iounit);
 		fcall->type = P9_TWrite;

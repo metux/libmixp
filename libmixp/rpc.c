@@ -57,7 +57,7 @@ freemuxrpc(MIXP_RPC *r)
 }
 
 static int
-sendrpc(MIXP_RPC *r, IxpFcall *f)
+sendrpc(MIXP_RPC *r, MIXP_FCALL *f)
 {
 	int ret;
 	MIXP_CLIENT *mux;
@@ -84,16 +84,16 @@ sendrpc(MIXP_RPC *r, IxpFcall *f)
 	return ret;
 }
 
-static IxpFcall*
+static MIXP_FCALL*
 muxrecv(MIXP_CLIENT *mux)
 {
-	IxpFcall *f;
+	MIXP_FCALL *f;
 
 	f = NULL;
 	mixp_thread->lock(&mux->rlock);
 	if(mixp_recvmsg(mux->fd, &mux->rmsg) == 0)
 		goto fail;
-	f = calloc(1,sizeof(IxpFcall));
+	f = calloc(1,sizeof(MIXP_FCALL));
 	if(ixp_msg2fcall(&mux->rmsg, f) == 0) {
 		MIXP_FREE(f);
 		f = NULL;
@@ -104,7 +104,7 @@ fail:
 }
 
 static void
-dispatchandqlock(MIXP_CLIENT *mux, IxpFcall *f)
+dispatchandqlock(MIXP_CLIENT *mux, MIXP_FCALL *f)
 {
 	int tag;
 	MIXP_RPC *r2;
@@ -146,11 +146,11 @@ electmuxer(MIXP_CLIENT *mux)
 	mux->muxer = NULL;
 }
 
-IxpFcall* 
-muxrpc(MIXP_CLIENT *mux, IxpFcall *tx)
+MIXP_FCALL*
+muxrpc(MIXP_CLIENT *mux, MIXP_FCALL *tx)
 {
 	MIXP_RPC rpc;
-	IxpFcall *p;
+	MIXP_FCALL *p;
 
 	initrpc(mux, &rpc);
 	if(sendrpc(&rpc, tx) < 0)

@@ -15,7 +15,7 @@
 
 void muxinit(MIXP_CLIENT*);
 void muxfree(MIXP_CLIENT*);
-IxpFcall *muxrpc(MIXP_CLIENT*, IxpFcall*);
+MIXP_FCALL *muxrpc(MIXP_CLIENT*, MIXP_FCALL*);
 
 static inline void __init_errstream()
 {
