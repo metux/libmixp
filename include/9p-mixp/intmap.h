@@ -2,15 +2,16 @@
 #ifndef __IXP_LOCAL_INTMAP_H
 #define __IXP_LOCAL_INTMAP_H
 
+#include <9p-mixp/types.h>
 #include <9p-mixp/threading.h>
 
 typedef struct MIXP_INTLIST MIXP_INTLIST;
-typedef struct {
+struct MIXP_INTMAP {
 	unsigned long nhash;
 	MIXP_INTLIST	**hash;
 	MIXP_RWLOCK lk;
 	const char* name;
-} MIXP_INTMAP;
+};
 
 void  mixp_intmap_init(MIXP_INTMAP *m, unsigned long nhash, void *hash, const char* name);
 void  mixp_intmap_unref(MIXP_INTMAP *m);

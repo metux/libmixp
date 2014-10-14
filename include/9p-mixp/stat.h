@@ -13,6 +13,8 @@
 
 #include <sys/types.h>
 #include <inttypes.h>
+
+#include <9p-mixp/types.h>
 #include <9p-mixp/qid.h>
 
 /* stat structure */

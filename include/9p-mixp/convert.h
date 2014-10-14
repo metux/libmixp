@@ -3,9 +3,9 @@
 #define __MIXP_CONVERT_H
 
 #include <inttypes.h>
-#include <9p-mixp/msgs.h>
+
+#include <9p-mixp/types.h>
 #include <9p-mixp/qid.h>
-#include <9p-mixp/stat.h>
 
 void mixp_pu8      (MIXP_MESSAGE *msg, unsigned char *val);
 void mixp_pu16     (MIXP_MESSAGE *msg, uint16_t *val);

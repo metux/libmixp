@@ -14,23 +14,11 @@
 #include <sys/types.h>
 #include <stdio.h>
 
-#include <9p-mixp/intmap.h>
+#include <9p-mixp/types.h>
 #include <9p-mixp/threading.h>
 #include <9p-mixp/msgs.h>
 #include <9p-mixp/srv_addr.h>
 #include <9p-mixp/qid.h>
-#include <9p-mixp/stat.h>
-
-typedef struct MIXP_9CONN MIXP_9CONN;
-typedef struct MIXP_REQUEST MIXP_REQUEST;
-typedef struct MIXP_SRV_OPS MIXP_SRV_OPS;
-typedef struct MIXP_CFID MIXP_CFID;
-typedef struct MIXP_CLIENT MIXP_CLIENT;
-typedef struct MIXP_CONNECTION MIXP_CONNECTION;
-typedef struct MIXP_FCALL MIXP_FCALL;
-typedef struct MIXP_FID MIXP_FID;
-typedef struct MIXP_RPC MIXP_RPC;
-typedef struct MIXP_SERVER MIXP_SERVER;
 
 struct MIXP_CONNECTION {
 	MIXP_SERVER	*srv;

@@ -9,8 +9,10 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+
 #include "mixp_local.h"
 
+#include <9p-mixp/types.h>
 #include <9p-mixp/bits.h>
 #include <9p-mixp/fcall.h>
 #include <9p-mixp/stat.h>
