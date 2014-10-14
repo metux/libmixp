@@ -13,6 +13,7 @@
 #include <9p-mixp/transport.h>
 #include <9p-mixp/intmap.h>
 #include <9p-mixp/conn.h>
+#include <9p-mixp/srv_ops.h>
 
 int mixp_dump = 0;
 

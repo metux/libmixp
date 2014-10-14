@@ -101,21 +101,6 @@ struct MIXP_REQUEST {
 	MIXP_9CONN	*conn;
 };
 
-struct MIXP_SRV_OPS {
-	void *aux;
-	void (*attach)(MIXP_REQUEST *r);
-	void (*clunk)(MIXP_REQUEST *r);
-	void (*create)(MIXP_REQUEST *r);
-	void (*flush)(MIXP_REQUEST *r);
-	void (*open)(MIXP_REQUEST *r);
-	void (*read)(MIXP_REQUEST *r);
-	void (*remove)(MIXP_REQUEST *r);
-	void (*stat)(MIXP_REQUEST *r);
-	void (*walk)(MIXP_REQUEST *r);
-	void (*write)(MIXP_REQUEST *r);
-	void (*freefid)(MIXP_FID *f);
-};
-
 /* client.c */
 MIXP_CLIENT*  mixp_mount(const char *address);
 MIXP_CLIENT*  mixp_mount_addr(MIXP_SERVER_ADDRESS*addr);
