@@ -83,7 +83,7 @@ enum {
 #define P9_DMSETGID	0x00040000	/* mode bit for setgid (Unix, 9P2000.u) */
 
 typedef struct MIXP_9CONN MIXP_9CONN;
-typedef struct Ixp9Req Ixp9Req;
+typedef struct MIXP_REQUEST MIXP_REQUEST;
 typedef struct MIXP_SRV_OPS MIXP_SRV_OPS;
 typedef struct MIXP_CFID MIXP_CFID;
 typedef struct MIXP_CLIENT MIXP_CLIENT;
@@ -180,11 +180,11 @@ struct MIXP_FID {
 	MIXP_INTMAP	*map;
 };
 
-struct Ixp9Req {
+struct MIXP_REQUEST {
 	MIXP_SRV_OPS	*srv;
 	MIXP_FID	*fid;
 	MIXP_FID	*newfid;
-	Ixp9Req	 *oldreq;
+	MIXP_REQUEST	*oldreq;
 	MIXP_FCALL	*ifcall;
 	MIXP_FCALL	*ofcall;
 	void	 *aux;
@@ -195,16 +195,16 @@ struct Ixp9Req {
 
 struct MIXP_SRV_OPS {
 	void *aux;
-	void (*attach)(Ixp9Req *r);
-	void (*clunk)(Ixp9Req *r);
-	void (*create)(Ixp9Req *r);
-	void (*flush)(Ixp9Req *r);
-	void (*open)(Ixp9Req *r);
-	void (*read)(Ixp9Req *r);
-	void (*remove)(Ixp9Req *r);
-	void (*stat)(Ixp9Req *r);
-	void (*walk)(Ixp9Req *r);
-	void (*write)(Ixp9Req *r);
+	void (*attach)(MIXP_REQUEST *r);
+	void (*clunk)(MIXP_REQUEST *r);
+	void (*create)(MIXP_REQUEST *r);
+	void (*flush)(MIXP_REQUEST *r);
+	void (*open)(MIXP_REQUEST *r);
+	void (*read)(MIXP_REQUEST *r);
+	void (*remove)(MIXP_REQUEST *r);
+	void (*stat)(MIXP_REQUEST *r);
+	void (*walk)(MIXP_REQUEST *r);
+	void (*write)(MIXP_REQUEST *r);
 	void (*freefid)(MIXP_FID *f);
 };
 
@@ -224,7 +224,7 @@ long        mixp_pwrite(MIXP_CFID *f, const void *buf, long count, int64_t offse
 int         mixp_close(MIXP_CFID *f);
 
 /* request.c */
-void ixp_respond(Ixp9Req *r, const char *error);
+void ixp_respond(MIXP_REQUEST *r, const char *error);
 void serve_9pcon(MIXP_CONNECTION *c);
 
 /* message.c */

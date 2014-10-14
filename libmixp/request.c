@@ -13,7 +13,7 @@
 
 int mixp_dump = 0;
 
-static void handlereq(Ixp9Req *r);
+static void handlereq(MIXP_REQUEST *r);
 
 static int
 min(int a, int b) {
@@ -105,9 +105,9 @@ destroyfid(MIXP_9CONN *pc, unsigned long fid) {
 	return 1;
 }
 
-Ixp9Req* mixp_9req_alloc(MIXP_9CONN *conn)
+MIXP_REQUEST* mixp_9req_alloc(MIXP_9CONN *conn)
 {
-	Ixp9Req * req = (Ixp9Req*) calloc(1,sizeof(Ixp9Req));
+	MIXP_REQUEST *req = (MIXP_REQUEST*)calloc(1,sizeof(MIXP_REQUEST));
 	req->ifcall   = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 	req->ofcall   = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 	
@@ -121,7 +121,7 @@ Ixp9Req* mixp_9req_alloc(MIXP_9CONN *conn)
 	return req;
 }
 
-void mixp_9req_free(Ixp9Req* req)
+void mixp_9req_free(MIXP_REQUEST *req)
 {
 	if (req==NULL);
 	    return;
@@ -140,7 +140,7 @@ static void
 handlefcall(MIXP_CONNECTION *c) 
 {
 	MIXP_9CONN *pc  = c->aux;
-	Ixp9Req * req = mixp_9req_alloc(pc);
+	MIXP_REQUEST *req = mixp_9req_alloc(pc);
 
 	// lock the connection
 	mixp_thread->lock(&pc->rlock);
@@ -177,7 +177,7 @@ Fail:
 }
 
 static void
-handlereq(Ixp9Req *r) 
+handlereq(MIXP_REQUEST *r)
 {
 	MIXP_9CONN *pc;
 	MIXP_SRV_OPS *srv;
@@ -363,7 +363,7 @@ handlereq(Ixp9Req *r)
 }
 
 void
-ixp_respond(Ixp9Req *r, const char *error) {
+ixp_respond(MIXP_REQUEST *r, const char *error) {
 	MIXP_9CONN *pc;
 	int msize;
 
@@ -485,7 +485,7 @@ ixp_respond(Ixp9Req *r, const char *error) {
 /* Flush a pending request */
 static void
 voidrequest(void *t) {
-	Ixp9Req *r, *tr;
+	MIXP_REQUEST *r, *tr;
 	MIXP_9CONN *pc;
 
 #ifdef DEBUG
@@ -506,7 +506,7 @@ static void
 voidfid(void *t) {
 	MIXP_FID* f = t;
 	MIXP_9CONN *pc = f->conn;
-	Ixp9Req* tr = mixp_9req_alloc(pc);
+	MIXP_REQUEST* tr = mixp_9req_alloc(pc);
 	tr->ifcall->type = P9_TClunk;
 	tr->ifcall->tag = IXP_NOTAG;
 	tr->ifcall->fid = f->fid;
