@@ -9,10 +9,10 @@
 #include "mixp_local.h"
 #include "util.h"
 
-struct Intlist {
+struct MIXP_INTLIST {
 	unsigned long		id;
 	void*		aux;
-	Intlist*	link;
+	MIXP_INTLIST	*link;
 	int             magic;
 };
 
@@ -38,7 +38,7 @@ void mixp_intmap_init(MIXP_INTMAP *m, unsigned long nhash, void *hash, const cha
 void mixp_intmap_free(MIXP_INTMAP *map, void (*destroy)(void*)) 
 {
 	int i;
-	Intlist *p, *nlink;
+	MIXP_INTLIST *p, *nlink;
 
 	if(destroy == NULL)
 		destroy = nop;
@@ -58,7 +58,7 @@ void mixp_intmap_free(MIXP_INTMAP *map, void (*destroy)(void*))
 void mixp_intmap_exec(MIXP_INTMAP *map, void (*run)(void*)) 
 {
 	int i;
-	Intlist *p, *nlink;
+	MIXP_INTLIST *p, *nlink;
 
 	mixp_thread->rlock(&map->lk);
 	for(i=0; i<map->nhash; i++)
@@ -80,8 +80,8 @@ void mixp_intmap_exec(MIXP_INTMAP *map, void (*run)(void*))
 static void * __real_lookupkey(MIXP_INTMAP* map, unsigned long id)
 {
 	int hid=hashid(map,id);
-	
-	Intlist * elem = map->hash[hid];
+
+	MIXP_INTLIST *elem = map->hash[hid];
 	while (elem)
 	{
 		if (elem->id == id)
@@ -109,7 +109,7 @@ static void * __real_insertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 {
 	int hid = hashid(map,id);
 	void* ov = NULL;
-	Intlist* elem = map->hash[hid];
+	MIXP_INTLIST *elem = map->hash[hid];
 
 	while (elem)
 	{
@@ -124,7 +124,7 @@ static void * __real_insertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 		}
 	}
 
-	elem = calloc(1,sizeof(Intlist));
+	elem = calloc(1,sizeof(MIXP_INTLIST));
 	elem->id   = id;
 	elem->aux  = value;
 	elem->link = map->hash[hid];
@@ -155,7 +155,7 @@ void * mixp_intmap_insertkey(MIXP_INTMAP *map, unsigned long id, void* value)
 static int __real_caninsertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 {
 	int hid = hashid(map,id);
-	Intlist* elem=map->hash[hid];
+	MIXP_INTLIST *elem=map->hash[hid];
 
 	while(elem)
 	{	
@@ -164,7 +164,7 @@ static int __real_caninsertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 		elem = elem->link;
 	}
 
-	elem = calloc(1,sizeof(Intlist));
+	elem = calloc(1,sizeof(MIXP_INTLIST));
 	elem->id       = id;
 	elem->aux      = value;
 	elem->link     = map->hash[hid];
@@ -188,7 +188,7 @@ int mixp_intmap_caninsertkey(MIXP_INTMAP *map, unsigned long id, void *v)
 static void* __real_deletekey(MIXP_INTMAP* map, unsigned long id)
 {
 	void *ov = NULL;
-	Intlist* elem;
+	MIXP_INTLIST *elem;
 
 	int hid = hashid(map,id);
 
@@ -221,7 +221,7 @@ static void* __real_deletekey(MIXP_INTMAP* map, unsigned long id)
 	fprintf(mixp_debug_stream,"deletekey [%s] id=%ld hid=%ld firstelem=%ld magic=%ld\n", map->name, (long)id, (long)hid, (long)elem, (long)elem->magic);
 #endif
 
-	Intlist *next;
+	MIXP_INTLIST *next;
 	while ((next = elem->link))
 	{
 #ifdef DEBUG

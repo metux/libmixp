@@ -4,10 +4,10 @@
 
 #include <9p-mixp/threading.h>
 
-typedef struct Intlist Intlist;
+typedef struct MIXP_INTLIST MIXP_INTLIST;
 typedef struct {
 	unsigned long nhash;
-	Intlist	**hash;
+	MIXP_INTLIST	**hash;
 	MIXP_RWLOCK lk;
 	const char* name;
 } MIXP_INTMAP;
