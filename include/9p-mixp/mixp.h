@@ -20,18 +20,6 @@
 #include <9p-mixp/srv_addr.h>
 #include <9p-mixp/qid.h>
 
-struct MIXP_CONNECTION {
-	MIXP_SERVER	*srv;
-	void		*aux;
-	int		fd;
-	void		(*read)(MIXP_CONNECTION *);
-	void		(*close)(MIXP_CONNECTION *);
-	char		closed;
-
-	/* Implementation details, do not use */
-	MIXP_CONNECTION		*next;
-};
-
 struct MIXP_SERVER {
 	MIXP_CONNECTION *conn;
 	void (*preselect)(MIXP_SERVER*);
