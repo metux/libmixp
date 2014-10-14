@@ -89,7 +89,7 @@ typedef struct MIXP_CFID MIXP_CFID;
 typedef struct MIXP_CLIENT MIXP_CLIENT;
 typedef struct MIXP_CONNECTION MIXP_CONNECTION;
 typedef struct IxpFcall IxpFcall;
-typedef struct IxpFid IxpFid;
+typedef struct MIXP_FID MIXP_FID;
 typedef struct MIXP_RPC MIXP_RPC;
 typedef struct MIXP_SERVER MIXP_SERVER;
 
@@ -168,7 +168,7 @@ struct MIXP_CFID {
 	MIXP_MUTEX 	iolock;
 };
 
-struct IxpFid {
+struct MIXP_FID {
 	char		*uid;
 	void		*aux;
 	unsigned long	fid;
@@ -182,8 +182,8 @@ struct IxpFid {
 
 struct Ixp9Req {
 	Ixp9Srv	 *srv;
-	IxpFid	 *fid;
-	IxpFid	 *newfid;
+	MIXP_FID	*fid;
+	MIXP_FID	*newfid;
 	Ixp9Req	 *oldreq;
 	IxpFcall *ifcall;
 	IxpFcall *ofcall;
@@ -205,7 +205,7 @@ struct Ixp9Srv {
 	void (*stat)(Ixp9Req *r);
 	void (*walk)(Ixp9Req *r);
 	void (*write)(Ixp9Req *r);
-	void (*freefid)(IxpFid *f);
+	void (*freefid)(MIXP_FID *f);
 };
 
 /* client.c */

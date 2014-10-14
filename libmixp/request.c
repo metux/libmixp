@@ -74,9 +74,9 @@ decref_p9conn(Ixp9Conn *pc) {
 
 static void *
 createfid(MIXP_INTMAP *map, int fid, Ixp9Conn *pc) {
-	IxpFid *f;
+	MIXP_FID *f;
 
-	f = calloc(1,sizeof(IxpFid));
+	f = calloc(1,sizeof(MIXP_FID));
 	pc->ref++;
 	f->conn = pc;
 	f->fid = fid;
@@ -91,7 +91,7 @@ createfid(MIXP_INTMAP *map, int fid, Ixp9Conn *pc) {
 
 static int
 destroyfid(Ixp9Conn *pc, unsigned long fid) {
-	IxpFid *f;
+	MIXP_FID *f;
 
 	f = mixp_intmap_deletekey(&pc->fidmap, fid);
 	if(f == NULL)
@@ -504,7 +504,7 @@ voidrequest(void *t) {
 /* Clunk an open Fid -- called by intmap (callback) */
 static void
 voidfid(void *t) {
-	IxpFid* f = t;
+	MIXP_FID* f = t;
 	Ixp9Conn* pc = f->conn;
 	Ixp9Req* tr = mixp_9req_alloc(pc);
 	tr->ifcall->type = P9_TClunk;
