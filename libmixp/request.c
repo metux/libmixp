@@ -160,7 +160,7 @@ handlefcall(MIXP_CONNECTION *c)
 
 	if(!mixp_intmap_caninsertkey(&pc->tagmap, req->ifcall->tag, req)) {
 		fprintf(mixp_error_stream,"duplicate tag: %d\n", req->ifcall->tag);
-		ixp_respond(req, Eduptag);
+		mixp_respond(req, Eduptag);
 		decref_p9conn(pc);
 		return;
 	}
@@ -194,7 +194,7 @@ handlereq(MIXP_REQUEST *r)
 	switch(r->ifcall->type) 
 	{
 	    default:
-		ixp_respond(r, Enofunc);
+		mixp_respond(r, Enofunc);
 		break;
 	    case P9_TVersion:
 		if(!strcmp(r->ifcall->Tversion.version, "9P"))
@@ -212,12 +212,12 @@ handlereq(MIXP_REQUEST *r)
 		    fprintf(mixp_error_stream,"handlereq() TVersion: got zero msize. setting to default: %d\n", IXP_MAX_MSG);
 		    r->ofcall->Rversion.msize = IXP_MAX_MSG;
 		}
-		ixp_respond(r, NULL);
+		mixp_respond(r, NULL);
 		break;
 	    case P9_TAttach:
 		if(!(r->fid = createfid(&pc->fidmap, r->ifcall->fid, pc))) {
 			fprintf(mixp_error_stream,"TAttach: duplicate fid\n");
-			ixp_respond(r, Edupfid);
+			mixp_respond(r, Edupfid);
 			return;
 		}
 		/* attach is a required function */
@@ -225,135 +225,135 @@ handlereq(MIXP_REQUEST *r)
 		break;
 	    case P9_TClunk:
 		if(!(r->fid = mixp_intmap_lookupkey(&pc->fidmap, r->ifcall->fid))) {
-			ixp_respond(r, Enofid);
+			mixp_respond(r, Enofid);
 			return;
 		}
 		if(!srv->clunk) {
-			ixp_respond(r, NULL);
+			mixp_respond(r, NULL);
 			return;
 		}
 		srv->clunk(r);
 		break;
 	    case P9_TFlush:
 		if(!(r->oldreq = mixp_intmap_lookupkey(&pc->tagmap, r->ifcall->Tflush.oldtag))) {
-			ixp_respond(r, Enotag);
+			mixp_respond(r, Enotag);
 			return;
 		}
 		if(!srv->flush) {
-			ixp_respond(r, Enofunc);
+			mixp_respond(r, Enofunc);
 			return;
 		}
 		srv->flush(r);
 		break;
 	    case P9_TCreate:
 		if(!(r->fid = mixp_intmap_lookupkey(&pc->fidmap, r->ifcall->fid))) {
-			ixp_respond(r, Enofid);
+			mixp_respond(r, Enofid);
 			return;
 		}
 		if(r->fid->omode != -1) {
-			ixp_respond(r, Ebotch);
+			mixp_respond(r, Ebotch);
 			return;
 		}
 		if(!(r->fid->qid.type & P9_QTDIR)) {
-			ixp_respond(r, Enotdir);
+			mixp_respond(r, Enotdir);
 			return;
 		}
 		if(!pc->srv->create) {
-			ixp_respond(r, Enofunc);
+			mixp_respond(r, Enofunc);
 			return;
 		}
 		pc->srv->create(r);
 		break;
 	    case P9_TOpen:
 		if(!(r->fid = mixp_intmap_lookupkey(&pc->fidmap, r->ifcall->fid))) {
-			ixp_respond(r, Enofid);
+			mixp_respond(r, Enofid);
 			return;
 		}
 		if((r->fid->qid.type & P9_QTDIR) && (r->ifcall->Topen.mode|P9_ORCLOSE) != (P9_OREAD|P9_ORCLOSE)) {
-			ixp_respond(r, Eisdir);
+			mixp_respond(r, Eisdir);
 			return;
 		}
 		r->ofcall->Ropen.qid = r->fid->qid;
 		if(!pc->srv->open) {
-			ixp_respond(r, Enofunc);
+			mixp_respond(r, Enofunc);
 			return;
 		}
 		pc->srv->open(r);
 		break;
 	    case P9_TRead:
 		if(!(r->fid = mixp_intmap_lookupkey(&pc->fidmap, r->ifcall->fid))) {
-			ixp_respond(r, Enofid);
+			mixp_respond(r, Enofid);
 			return;
 		}
 		if(r->fid->omode == -1 || r->fid->omode == P9_OWRITE) {
-			ixp_respond(r, Ebotch);
+			mixp_respond(r, Ebotch);
 			return;
 		}
 		if(!pc->srv->read) {
-			ixp_respond(r, Enofunc);
+			mixp_respond(r, Enofunc);
 			return;
 		}
 		pc->srv->read(r);
 		break;
 	    case P9_TRemove:
 		if(!(r->fid = mixp_intmap_lookupkey(&pc->fidmap, r->ifcall->fid))) {
-			ixp_respond(r, Enofid);
+			mixp_respond(r, Enofid);
 			return;
 		}
 		if(!pc->srv->remove) {
-			ixp_respond(r, Enofunc);
+			mixp_respond(r, Enofunc);
 			return;
 		}
 		pc->srv->remove(r);
 		break;
 	    case P9_TStat:
 		if(!(r->fid = mixp_intmap_lookupkey(&pc->fidmap, r->ifcall->fid))) {
-			ixp_respond(r, Enofid);
+			mixp_respond(r, Enofid);
 			return;
 		}
 		if(!pc->srv->stat) {
-			ixp_respond(r, Enofunc);
+			mixp_respond(r, Enofunc);
 			return;
 		}
 		pc->srv->stat(r);
 		break;
 	    case P9_TWalk:
 		if(!(r->fid = mixp_intmap_lookupkey(&pc->fidmap, r->ifcall->fid))) {
-			ixp_respond(r, Enofid);
+			mixp_respond(r, Enofid);
 			return;
 		}
 		if(r->fid->omode != -1) {
-			ixp_respond(r, "cannot walk from an open fid");
+			mixp_respond(r, "cannot walk from an open fid");
 			return;
 		}
 		if(r->ifcall->Twalk.nwname && !(r->fid->qid.type & P9_QTDIR)) {
-			ixp_respond(r, Enotdir);
+			mixp_respond(r, Enotdir);
 			return;
 		}
 		if((r->ifcall->fid != r->ifcall->Twalk.newfid)) {
 			if(!(r->newfid = createfid(&pc->fidmap, r->ifcall->Twalk.newfid, pc))) {
-				ixp_respond(r, Edupfid);
+				mixp_respond(r, Edupfid);
 				return;
 			}
 		}else
 			r->newfid = r->fid;
 		if(!pc->srv->walk) {
-			ixp_respond(r, Enofunc);
+			mixp_respond(r, Enofunc);
 			return;
 		}
 		pc->srv->walk(r);
 		break;
 	    case P9_TWrite:
 		if(!(r->fid = mixp_intmap_lookupkey(&pc->fidmap, r->ifcall->fid))) {
-			ixp_respond(r, Enofid);
+			mixp_respond(r, Enofid);
 			return;
 		}
 		if((r->fid->omode&3) != P9_OWRITE && (r->fid->omode&3) != P9_ORDWR) {
-			ixp_respond(r, "write on fid not opened for writing");
+			mixp_respond(r, "write on fid not opened for writing");
 			return;
 		}
 		if(!pc->srv->write) {
-			ixp_respond(r, Enofunc);
+			mixp_respond(r, Enofunc);
 			return;
 		}
 		pc->srv->write(r);
@@ -363,7 +363,7 @@ handlereq(MIXP_REQUEST *r)
 }
 
 void
-ixp_respond(MIXP_REQUEST *r, const char *error) {
+mixp_respond(MIXP_REQUEST *r, const char *error) {
 	MIXP_9CONN *pc;
 	int msize;
 
@@ -372,7 +372,7 @@ ixp_respond(MIXP_REQUEST *r, const char *error) {
 	switch(r->ifcall->type) {
 	default:
 		if(!error)
-			assert(!"ixp_respond called on unsupported fcall type");
+			assert(!"mixp_respond called on unsupported fcall type");
 		break;
 	case P9_TVersion:
 		assert(error == NULL);
@@ -382,7 +382,7 @@ ixp_respond(MIXP_REQUEST *r, const char *error) {
 		msize = min(r->ofcall->Rversion.msize, IXP_MAX_MSG);
 		if (msize<1)
 		{
-		    fprintf(mixp_error_stream,"ixp_respond() P9_TVersion: msize<1 ! tweaking to IXP_MAX_MSG\n");
+		    fprintf(mixp_error_stream,"mixp_respond() P9_TVersion: msize<1 ! tweaking to IXP_MAX_MSG\n");
 		    msize = IXP_MAX_MSG;
 		}
 		pc->rmsg.data = ixp_erealloc(pc->rmsg.data, msize);
@@ -445,7 +445,7 @@ ixp_respond(MIXP_REQUEST *r, const char *error) {
 		break;
 	case P9_TFlush:
 		if((r->oldreq = mixp_intmap_lookupkey(&pc->tagmap, r->ifcall->Tflush.oldtag)))
-			ixp_respond(r->oldreq, Eintr);
+			mixp_respond(r->oldreq, Eintr);
 		break;
 	case P9_TRead:
 	case P9_TStat:
