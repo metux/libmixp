@@ -4,8 +4,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 #include "mixp_local.h"
+
 #include <9p-mixp/convert.h>
+#include <9p-mixp/fcall.h>
 #include <9p-mixp/stat.h>
 
 #include "util.h"

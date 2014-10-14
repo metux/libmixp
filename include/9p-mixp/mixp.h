@@ -32,8 +32,6 @@ typedef struct MIXP_FID MIXP_FID;
 typedef struct MIXP_RPC MIXP_RPC;
 typedef struct MIXP_SERVER MIXP_SERVER;
 
-#include <9p-mixp/mixp_fcall.h>
-
 struct MIXP_CONNECTION {
 	MIXP_SERVER	*srv;
 	void		*aux;

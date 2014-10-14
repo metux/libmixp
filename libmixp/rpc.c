@@ -8,6 +8,7 @@
 #include <string.h>
 #include "mixp_local.h"
 
+#include <9p-mixp/fcall.h>
 #include <9p-mixp/transport.h>
 #include <9p-mixp/err.h>
 

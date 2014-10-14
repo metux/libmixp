@@ -1,9 +1,9 @@
+
 #ifndef __MIXP_FCALL_H
 #define __MIXP_FCALL_H
 
 #include <9p-mixp/bits.h>
 
-/* from fcall(3) in plan9port */
 struct MIXP_FCALL {
 	unsigned char type;
 	unsigned short tag;

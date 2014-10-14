@@ -12,6 +12,7 @@
 #include "mixp_local.h"
 
 #include <9p-mixp/bits.h>
+#include <9p-mixp/fcall.h>
 #include <9p-mixp/stat.h>
 #include <9p-mixp/err.h>
 #include <9p-mixp/convert.h>
