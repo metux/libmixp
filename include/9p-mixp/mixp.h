@@ -230,9 +230,6 @@ void mixp_serve_conn(MIXP_CONNECTION *c);
 /* message.c */
 size_t mixp_stat_sizeof(MIXP_STAT *stat);
 MIXP_MESSAGE mixp_message(char *data, size_t length, unsigned int mode);
-void mixp_fcall_free(MIXP_FCALL *fcall);
-size_t ixp_msg2fcall(MIXP_MESSAGE *msg, MIXP_FCALL *fcall);
-size_t ixp_fcall2msg(MIXP_MESSAGE *msg, MIXP_FCALL *fcall);
 
 /* server.c */
 MIXP_CONNECTION *ixp_listen(MIXP_SERVER *s, int fd, void *aux,

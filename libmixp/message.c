@@ -288,7 +288,7 @@ ixp_pfcall(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
 }
 
 size_t
-ixp_fcall2msg(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
+mixp_fcall2msg(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
 {
 	size_t size;
 
@@ -311,7 +311,7 @@ ixp_fcall2msg(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
 }
 
 size_t
-ixp_msg2fcall(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
+mixp_msg2fcall(MIXP_MESSAGE *msg, MIXP_FCALL *fcall)
 {
 	msg->pos = msg->data + SDWord;
 	msg->mode = MsgUnpack;

@@ -150,7 +150,7 @@ handlefcall(MIXP_CONNECTION *c)
 		goto Fail;
 		
 	// decode incoming packet to to req->ifcall (MIXP_FCALL)
-	if(ixp_msg2fcall(&pc->rmsg, req->ifcall) == 0)
+	if(mixp_msg2fcall(&pc->rmsg, req->ifcall) == 0)
 		goto Fail;
 	
 	// unlock the connection 
@@ -466,7 +466,7 @@ mixp_respond(MIXP_REQUEST *r, const char *error) {
 
 	if(pc->conn) {
 		mixp_thread->lock(&pc->wlock);
-		msize = ixp_fcall2msg(&pc->wmsg, r->ofcall);
+		msize = mixp_fcall2msg(&pc->wmsg, r->ofcall);
 		if(mixp_sendmsg(pc->conn->fd, &pc->wmsg) != msize)
 			ixp_hangup(pc->conn);
 		mixp_thread->unlock(&pc->wlock);

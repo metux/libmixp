@@ -72,7 +72,7 @@ sendrpc(MIXP_RPC *r, MIXP_FCALL *f)
 	mixp_thread->unlock(&mux->lk);
 
 	mixp_thread->lock(&mux->wlock);
-	if(!ixp_fcall2msg(&mux->wmsg, f) || !mixp_sendmsg(mux->fd, &mux->wmsg)) {
+	if(!mixp_fcall2msg(&mux->wmsg, f) || !mixp_sendmsg(mux->fd, &mux->wmsg)) {
 		/* mixp_werrstr("settag/send tag %d: %r", tag); fprint(2, "%r\n"); */
 		mixp_thread->lock(&mux->lk);
 		dequeue(mux, r);
@@ -94,7 +94,7 @@ muxrecv(MIXP_CLIENT *mux)
 	if(mixp_recvmsg(mux->fd, &mux->rmsg) == 0)
 		goto fail;
 	f = calloc(1,sizeof(MIXP_FCALL));
-	if(ixp_msg2fcall(&mux->rmsg, f) == 0) {
+	if(mixp_msg2fcall(&mux->rmsg, f) == 0) {
 		MIXP_FREE(f);
 		f = NULL;
 	}

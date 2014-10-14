@@ -31,4 +31,9 @@ static inline void __init_errstream()
 
 #define DEFAULT_IOUNIT		4096
 
+/** message.c **/
+size_t mixp_fcall2msg(MIXP_MESSAGE *msg, MIXP_FCALL *fcall);
+size_t mixp_msg2fcall(MIXP_MESSAGE *msg, MIXP_FCALL *fcall);
+void mixp_fcall_free(MIXP_FCALL *fcall);
+
 #endif
