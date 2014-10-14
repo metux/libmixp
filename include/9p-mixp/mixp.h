@@ -82,7 +82,7 @@ enum {
 #define P9_DMSETUID	0x00080000	/* mode bit for setuid (Unix, 9P2000.u) */
 #define P9_DMSETGID	0x00040000	/* mode bit for setgid (Unix, 9P2000.u) */
 
-typedef struct Ixp9Conn Ixp9Conn;
+typedef struct MIXP_9CONN MIXP_9CONN;
 typedef struct Ixp9Req Ixp9Req;
 typedef struct Ixp9Srv Ixp9Srv;
 typedef struct MIXP_CFID MIXP_CFID;
@@ -176,7 +176,7 @@ struct MIXP_FID {
 	signed char	omode;
 
 	/* Implementation details */
-	Ixp9Conn	*conn;
+	MIXP_9CONN	*conn;
 	MIXP_INTMAP	*map;
 };
 
@@ -190,7 +190,7 @@ struct Ixp9Req {
 	void	 *aux;
 
 	/* Implementation details */
-	Ixp9Conn *conn;
+	MIXP_9CONN	*conn;
 };
 
 struct Ixp9Srv {

@@ -39,7 +39,7 @@ enum {
 	FID_BUCKETS = 61,
 };
 
-struct Ixp9Conn {
+struct MIXP_9CONN {
 	MIXP_INTMAP	tagmap;
 	MIXP_INTMAP	fidmap;
 	Ixp9Srv		*srv;
@@ -53,7 +53,7 @@ struct Ixp9Conn {
 };
 
 static void
-decref_p9conn(Ixp9Conn *pc) {
+decref_p9conn(MIXP_9CONN *pc) {
 	mixp_thread->lock(&pc->wlock);
 	if(--pc->ref > 0) {
 		mixp_thread->unlock(&pc->wlock);
@@ -73,7 +73,7 @@ decref_p9conn(Ixp9Conn *pc) {
 }
 
 static void *
-createfid(MIXP_INTMAP *map, int fid, Ixp9Conn *pc) {
+createfid(MIXP_INTMAP *map, int fid, MIXP_9CONN *pc) {
 	MIXP_FID *f;
 
 	f = calloc(1,sizeof(MIXP_FID));
@@ -90,7 +90,7 @@ createfid(MIXP_INTMAP *map, int fid, Ixp9Conn *pc) {
 }
 
 static int
-destroyfid(Ixp9Conn *pc, unsigned long fid) {
+destroyfid(MIXP_9CONN *pc, unsigned long fid) {
 	MIXP_FID *f;
 
 	f = mixp_intmap_deletekey(&pc->fidmap, fid);
@@ -105,7 +105,7 @@ destroyfid(Ixp9Conn *pc, unsigned long fid) {
 	return 1;
 }
 
-Ixp9Req* mixp_9req_alloc(Ixp9Conn* conn)
+Ixp9Req* mixp_9req_alloc(MIXP_9CONN *conn)
 {
 	Ixp9Req * req = (Ixp9Req*) calloc(1,sizeof(Ixp9Req));
 	req->ifcall   = (IxpFcall*)calloc(1,sizeof(IxpFcall));
@@ -139,7 +139,7 @@ void mixp_9req_free(Ixp9Req* req)
 static void
 handlefcall(MIXP_CONNECTION *c) 
 {
-	Ixp9Conn* pc  = c->aux;
+	MIXP_9CONN *pc  = c->aux;
 	Ixp9Req * req = mixp_9req_alloc(pc);
 
 	// lock the connection
@@ -179,7 +179,7 @@ Fail:
 static void
 handlereq(Ixp9Req *r) 
 {
-	Ixp9Conn *pc;
+	MIXP_9CONN *pc;
 	Ixp9Srv *srv;
 
 	pc = r->conn;
@@ -364,7 +364,7 @@ handlereq(Ixp9Req *r)
 
 void
 ixp_respond(Ixp9Req *r, const char *error) {
-	Ixp9Conn *pc;
+	MIXP_9CONN *pc;
 	int msize;
 
 	pc = r->conn;
@@ -486,7 +486,7 @@ ixp_respond(Ixp9Req *r, const char *error) {
 static void
 voidrequest(void *t) {
 	Ixp9Req *r, *tr;
-	Ixp9Conn *pc;
+	MIXP_9CONN *pc;
 
 #ifdef DEBUG
 	fprintf(mixp_debug_stream, "voidrequest: t=%ld\n", (long)t);
@@ -505,7 +505,7 @@ voidrequest(void *t) {
 static void
 voidfid(void *t) {
 	MIXP_FID* f = t;
-	Ixp9Conn* pc = f->conn;
+	MIXP_9CONN *pc = f->conn;
 	Ixp9Req* tr = mixp_9req_alloc(pc);
 	tr->ifcall->type = P9_TClunk;
 	tr->ifcall->tag = IXP_NOTAG;
@@ -517,7 +517,7 @@ voidfid(void *t) {
 
 static void
 cleanupconn(MIXP_CONNECTION *c) {
-	Ixp9Conn *pc;
+	MIXP_9CONN *pc;
 
 	pc = c->aux;
 	pc->conn = NULL;
@@ -531,14 +531,14 @@ cleanupconn(MIXP_CONNECTION *c) {
 /* Handle incoming 9P connections */
 void
 serve_9pcon(MIXP_CONNECTION *c) {
-	Ixp9Conn *pc;
+	MIXP_9CONN *pc;
 	int fd;
 
 	fd = accept(c->fd, NULL, NULL);
 	if(fd < 0)
 		return;
 
-	pc = calloc(1,sizeof(Ixp9Conn));
+	pc = calloc(1,sizeof(MIXP_9CONN));
 	pc->ref++;
 	pc->srv = c->aux;
 	pc->rmsg.size = 1024;
