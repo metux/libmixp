@@ -9,6 +9,7 @@
 
 #include <9p-mixp/convert.h>
 #include <9p-mixp/fcall.h>
+#include <9p-mixp/msgs.h>
 #include <9p-mixp/stat.h>
 
 #include "util.h"

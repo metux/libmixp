@@ -16,7 +16,6 @@
 
 #include <9p-mixp/types.h>
 #include <9p-mixp/threading.h>
-#include <9p-mixp/msgs.h>
 #include <9p-mixp/srv_addr.h>
 
 /* client.c */

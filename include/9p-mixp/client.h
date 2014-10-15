@@ -2,6 +2,7 @@
 #ifndef __MIXP_CLIENT_H
 #define __MIXP_CLIENT_H
 
+#include <9p-mixp/mixp.h>
 #include <9p-mixp/rpc.h>
 #include <9p-mixp/qid.h>
 
