@@ -32,6 +32,7 @@ typedef struct MIXP_STAT {
 	char *muid;
 } MIXP_STAT;
 
+void mixp_stat_clear(MIXP_STAT* stat);
 void mixp_stat_free(MIXP_STAT* stat);
 
 #endif

@@ -38,17 +38,6 @@ mixp_message(char *data, size_t length, unsigned int mode) {
 }
 
 void
-mixp_stat_free(MIXP_STAT *s) {
-    if (s!=NULL)
-    {
-	MIXP_FREE(s->name);
-	MIXP_FREE(s->uid);
-	MIXP_FREE(s->gid);
-	MIXP_FREE(s->muid);
-    }
-}
-
-void
 mixp_fcall_free(MIXP_FCALL *fcall)
 {
     if (fcall == NULL)

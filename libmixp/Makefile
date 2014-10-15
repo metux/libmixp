@@ -4,7 +4,22 @@ THREADLIB=pthread
 
 include ../build.mk
 
-OBJNAMES=client convert intmap message request socket transport util error rpc thread addr thread_$(THREADLIB) server
+OBJNAMES=\
+	client			\
+	convert			\
+	intmap			\
+	message			\
+	request			\
+	socket			\
+	stat			\
+	transport		\
+	util			\
+	error			\
+	rpc			\
+	thread			\
+	addr			\
+	thread_$(THREADLIB)	\
+	server
 
 NOPIC_OBJ = $(addsuffix .nopic.o,$(OBJNAMES))
 PIC_OBJ   = $(addsuffix .pic.o,$(OBJNAMES))
