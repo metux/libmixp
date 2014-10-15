@@ -18,7 +18,6 @@
 #include <9p-mixp/threading.h>
 #include <9p-mixp/msgs.h>
 #include <9p-mixp/srv_addr.h>
-#include <9p-mixp/qid.h>
 
 /* client.c */
 MIXP_CLIENT*  mixp_mount(const char *address);

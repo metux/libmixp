@@ -2,6 +2,8 @@
 #ifndef __MIXP_FID_H
 #define __MIXP_FID_H
 
+#include <9p-mixp/qid.h>
+
 struct MIXP_FID {
 	char		*uid;
 	void		*aux;

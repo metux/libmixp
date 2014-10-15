@@ -3,6 +3,7 @@
 #define __MIXP_FCALL_H
 
 #include <9p-mixp/bits.h>
+#include <9p-mixp/qid.h>
 
 struct MIXP_FCALL {
 	unsigned char type;
