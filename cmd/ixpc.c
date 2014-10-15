@@ -14,6 +14,7 @@
 #include <9p-mixp/err.h>
 #include <9p-mixp/stat.h>
 #include <9p-mixp/convert.h>
+#include <9p-mixp/client.h>
 
 /* Temporary */
 #define fatal(...) if (1) { fprintf(stderr, "ixpc: fatal: " __VA_ARGS__); } \

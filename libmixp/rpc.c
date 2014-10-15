@@ -11,6 +11,7 @@
 #include <9p-mixp/fcall.h>
 #include <9p-mixp/transport.h>
 #include <9p-mixp/err.h>
+#include <9p-mixp/client.h>
 
 #include "util.h"
 

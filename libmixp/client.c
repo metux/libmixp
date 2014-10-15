@@ -18,6 +18,7 @@
 #include <9p-mixp/stat.h>
 #include <9p-mixp/err.h>
 #include <9p-mixp/convert.h>
+#include <9p-mixp/client.h>
 
 #include "util.h"
 
