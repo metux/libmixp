@@ -12,6 +12,7 @@
 #include <9p-mixp/transport.h>
 #include <9p-mixp/err.h>
 #include <9p-mixp/client.h>
+#include <9p-mixp/rpc.h>
 
 #include "util.h"
 

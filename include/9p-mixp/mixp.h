@@ -29,17 +29,6 @@ struct MIXP_SERVER {
 	fd_set rd;
 };
 
-struct MIXP_RPC {
-	MIXP_CLIENT *mux;
-	MIXP_RPC *next;
-	MIXP_RPC *prev;
-	MIXP_RENDEZ r;
-	unsigned int tag;
-	MIXP_FCALL	*p;
-	int waiting;
-	int async;
-};
-
 /* client.c */
 MIXP_CLIENT*  mixp_mount(const char *address);
 MIXP_CLIENT*  mixp_mount_addr(MIXP_SERVER_ADDRESS*addr);

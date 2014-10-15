@@ -2,6 +2,8 @@
 #ifndef __MIXP_CLIENT_H
 #define __MIXP_CLIENT_H
 
+#include <9p-mixp/rpc.h>
+
 struct MIXP_CLIENT {
 	int	fd;
 	unsigned int	msize;
