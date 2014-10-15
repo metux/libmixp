@@ -76,18 +76,6 @@ struct MIXP_CFID {
 	MIXP_MUTEX 	iolock;
 };
 
-struct MIXP_FID {
-	char		*uid;
-	void		*aux;
-	unsigned long	fid;
-	MIXP_QID	qid;
-	signed char	omode;
-
-	/* Implementation details */
-	MIXP_9CONN	*conn;
-	MIXP_INTMAP	*map;
-};
-
 /* client.c */
 MIXP_CLIENT*  mixp_mount(const char *address);
 MIXP_CLIENT*  mixp_mount_addr(MIXP_SERVER_ADDRESS*addr);
