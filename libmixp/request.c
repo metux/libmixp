@@ -175,7 +175,7 @@ handlefcall(MIXP_CONNECTION *c)
 
 Fail:
 	mixp_thread->unlock(&pc->rlock);
-	ixp_hangup(c);
+	mixp_hangup(c);
 	mixp_9req_free(req);
 	return;
 }
@@ -472,7 +472,7 @@ mixp_respond(MIXP_REQUEST *r, const char *error) {
 		mixp_thread->lock(&pc->wlock);
 		msize = mixp_fcall2msg(&pc->wmsg, r->ofcall);
 		if(mixp_sendmsg(pc->conn->fd, &pc->wmsg) != msize)
-			ixp_hangup(pc->conn);
+			mixp_hangup(pc->conn);
 		mixp_thread->unlock(&pc->wlock);
 	}
 

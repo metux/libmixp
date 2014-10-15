@@ -74,7 +74,7 @@ ixp_listen(MIXP_SERVER *s, int fd, void *aux,
 }
 
 void
-ixp_hangup(MIXP_CONNECTION *c) {
+mixp_hangup(MIXP_CONNECTION *c) {
 	MIXP_SERVER *s;
 	MIXP_CONNECTION **tc;
 
@@ -142,6 +142,6 @@ ixp_server_close(MIXP_SERVER *s) {
 	MIXP_CONNECTION *c, *next;
 	for(c = s->conn; c; c = next) {
 		next = c->next;
-		ixp_hangup(c);
+		mixp_hangup(c);
 	}
 }
