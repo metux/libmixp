@@ -117,8 +117,8 @@ handle_conns(MIXP_SERVER *s) {
 	}
 }
 
-char *
-ixp_serverloop(MIXP_SERVER *s) {
+int
+mixp_server_loop(MIXP_SERVER *s) {
 	int r;
 
 	s->running = 1;
@@ -130,11 +130,11 @@ ixp_serverloop(MIXP_SERVER *s) {
 		if(r < 0) {
 			if(errno == EINTR)
 				continue;
-			return "fatal select error";
+			return -errno;
 		}
 		handle_conns(s);
 	}
-	return NULL;
+	return 0;
 }
 
 void

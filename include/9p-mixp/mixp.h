@@ -129,7 +129,7 @@ MIXP_CONNECTION *ixp_listen(MIXP_SERVER *s, int fd, void *aux,
 		void (*read)(MIXP_CONNECTION *c),
 		void (*close)(MIXP_CONNECTION *c));
 void mixp_hangup(MIXP_CONNECTION *c);
-char *ixp_serverloop(MIXP_SERVER *s);
+int  mixp_server_loop(MIXP_SERVER *s);
 void ixp_server_close(MIXP_SERVER *s);
 int ixp_serversock_tcp(const char* addr, int port, char** errstr);
 
