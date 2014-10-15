@@ -20,15 +20,6 @@
 #include <9p-mixp/srv_addr.h>
 #include <9p-mixp/qid.h>
 
-struct MIXP_SERVER {
-	MIXP_CONNECTION *conn;
-	void (*preselect)(MIXP_SERVER*);
-	void *aux;
-	int running;
-	int maxfd;
-	fd_set rd;
-};
-
 /* client.c */
 MIXP_CLIENT*  mixp_mount(const char *address);
 MIXP_CLIENT*  mixp_mount_addr(MIXP_SERVER_ADDRESS*addr);

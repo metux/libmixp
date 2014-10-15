@@ -15,6 +15,7 @@
 #include "mixp_local.h"
 
 #include <9p-mixp/conn.h>
+#include <9p-mixp/server.h>
 
 int ixp_serversock_tcp(const char* addr, int port, char** errstr)
 {
