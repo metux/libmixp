@@ -10,6 +10,7 @@
 
 #include <9p-mixp/bits.h>
 #include <9p-mixp/fcall.h>
+#include <9p-mixp/request.h>
 #include <9p-mixp/transport.h>
 #include <9p-mixp/intmap.h>
 #include <9p-mixp/conn.h>
