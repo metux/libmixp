@@ -23,6 +23,6 @@ ixp_client:	ixp_client.o util.o
 
 ixpc:		ixpc.o
 	$(CC) -o $@ $^ $(LIBMIXP)
-	
+
 clean:
 	rm -f *.o ixp_client ixpc

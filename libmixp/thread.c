@@ -11,7 +11,6 @@ MIXP_THREAD *mixp_thread = &ixp_nothread;
 static char*
 errbuf() {
 	static char errbuf[MIXP_MAX_ERROR];
-
 	return errbuf;
 }
 
@@ -96,4 +95,3 @@ static MIXP_THREAD ixp_nothread = {
 	.read = read,
 	.write = write,
 };
-

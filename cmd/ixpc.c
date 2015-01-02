@@ -41,9 +41,9 @@ static MIXP_CLIENT *client;
 static void
 usage() {
 	fprintf(stderr,
-		   "usage: %1$s [-a <address>] {create | read | ls [-ld] | remove | write} <file>\n"
-		   "       %1$s [-a <address>] xwrite <file> <data>\n"
-		   "       %1$s -v\n", argv0);
+		"usage: %1$s [-a <address>] {create | read | ls [-ld] | remove | write} <file>\n"
+		"       %1$s [-a <address>] xwrite <file> <data>\n"
+		"       %1$s -v\n", argv0);
 	exit(1);
 }
 
@@ -127,8 +127,8 @@ xwrite(int argc, char *argv[]) {
 	char *file;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -147,8 +147,8 @@ xawrite(int argc, char *argv[]) {
 	int nbuf, mbuf, len;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -183,8 +183,8 @@ xcreate(int argc, char *argv[]) {
 	char *file;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -203,8 +203,8 @@ xremove(int argc, char *argv[]) {
 	char *file;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -220,8 +220,8 @@ xread(int argc, char *argv[]) {
 	int count;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -250,14 +250,14 @@ xls(int argc, char *argv[]) {
 	lflag = dflag = 0;
 
 	ARGBEGIN{
-	case 'l':
-		lflag++;
+		case 'l':
+			lflag++;
 		break;
-	case 'd':
-		dflag++;
+		case 'd':
+			dflag++;
 		break;
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -327,24 +327,24 @@ main(int argc, char *argv[]) {
 	address = getenv("IXP_ADDRESS");
 
 	ARGBEGIN{
-	case 'v':
-		printf("%s-" VERSION ", (C) 2007 Kris Maglione, 2008 Enrico Weigelt <weigelt@metux.de>\n", argv0);
-		exit(0);
-	case 'd':
-		mixp_dump = 1;
+		case 'v':
+			printf("%s-" VERSION ", (C) 2007 Kris Maglione, 2008 Enrico Weigelt <weigelt@metux.de>\n", argv0);
+			exit(0);
+		case 'd':
+			mixp_dump = 1;
 		break;
-	case 'a':
-		address = EARGF(usage());
+		case 'a':
+			address = EARGF(usage());
 		break;
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	cmd = EARGF(usage());
 
 	if(!address)
 		fatal("$IXP_ADDRESS not set\n");
-	
+
 	MIXP_SERVER_ADDRESS* addr = mixp_srv_addr_parse(address);
 	if (!addr)
 		fatal("Could not parse address\n");
@@ -357,7 +357,7 @@ main(int argc, char *argv[]) {
 #endif
 
 	client = mixp_mount_addr(addr);
-	
+
 	if (!client)
 		fatal("Could not mount: %s\n", mixp_errbuf());
 

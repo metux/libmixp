@@ -17,9 +17,9 @@ static MIXP_CLIENT *client;
 static void
 usage() {
 	fprintf(stderr,
-		   "usage: %1$s [-a <address>] {create | read | ls [-ld] | remove | write} <file>\n"
-		   "       %1$s [-a <address>] xwrite <file> <data>\n"
-		   "       %1$s -v\n", argv0);
+		"usage: %1$s [-a <address>] {create | read | ls [-ld] | remove | write} <file>\n"
+		"       %1$s [-a <address>] xwrite <file> <data>\n"
+		"       %1$s -v\n", argv0);
 	exit(1);
 }
 
@@ -45,29 +45,29 @@ comp_stat(const void *s1, const void *s2) {
 
 	st1 = (MIXP_STAT*)s1;
 	st2 = (MIXP_STAT*)s2;
-	
+
 	fprintf(stderr,"entering comp_stat()\n");
 	if (s1==NULL)
 	{
-	    fprintf(stderr,"comp_stat() s1==NULL!\n");
-	    return 0;
+		fprintf(stderr,"comp_stat() s1==NULL!\n");
+		return 0;
 	}
 	if (s2==NULL)
 	{
-	    fprintf(stderr,"comp_stat() s2==NULL\n");
-	    return 0;
+		fprintf(stderr,"comp_stat() s2==NULL\n");
+		return 0;
 	}
 	if (st1->name==NULL)
 	{
-	    fprintf(stderr,"comp_stat() s1->name==NULL\n");
-	    return 0;
+		fprintf(stderr,"comp_stat() s1->name==NULL\n");
+		return 0;
 	}
 	if (st2->name==NULL)
 	{
-	    fprintf(stderr,"comp_stat() s2->name==NULL\n");
-	    return 0;
+		fprintf(stderr,"comp_stat() s2->name==NULL\n");
+		return 0;
 	}
-	
+
 	fprintf(stderr,"comp_stat() XXX\n");
 	fprintf(stderr,"comp_stat() s1->name=\"%s\"\n", st1->name);
 	fprintf(stderr,"comp_stat() s2->name=\"%s\"\n", st2->name);
@@ -112,8 +112,8 @@ static void
 print_stat(MIXP_STAT *s, int lflag) {
 	if (s==NULL)
 	{
-	    fprintf(stderr,"print_stat() s==NULL\n");
-	    return;
+		fprintf(stderr,"print_stat() s==NULL\n");
+		return;
 	}
 
 	if(lflag)
@@ -121,7 +121,7 @@ print_stat(MIXP_STAT *s, int lflag) {
 		fprintf(stderr," LFLAG\n");
 		fprintf(stdout, "%s %s %s %5llu %s %s\n", str_of_mode(s->mode),
 				s->uid, s->gid, s->length, str_of_time(s->mtime), s->name);
-	}				
+	}
 	else {
 		fprintf(stderr,"NORMAL: %s\n", s->name);
 		if((s->mode&P9_DMDIR) && strcmp(s->name, "/"))
@@ -138,8 +138,8 @@ xwrite(int argc, char *argv[]) {
 	char *file;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -158,8 +158,8 @@ xawrite(int argc, char *argv[]) {
 	int nbuf, mbuf, len;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -194,8 +194,8 @@ xcreate(int argc, char *argv[]) {
 	char *file;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -214,8 +214,8 @@ xremove(int argc, char *argv[]) {
 	char *file;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -231,8 +231,8 @@ xread(int argc, char *argv[]) {
 	int count;
 
 	ARGBEGIN{
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
@@ -263,21 +263,22 @@ xls(int argc, char *argv[]) {
 	lflag = dflag = 0;
 
 	ARGBEGIN{
-	case 'l':
-		lflag++;
+		case 'l':
+			lflag++;
 		break;
-	case 'd':
-		dflag++;
+		case 'd':
+			dflag++;
 		break;
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	file = EARGF(usage());
 
 	printf("0\n");
-	
+
 	stat = ixp_stat(client, file);
+
 	if(stat == NULL)
 		fatal("cannot stat file '%s': %s\n", file, mixp_errbuf());
 
@@ -356,14 +357,14 @@ main(int argc, char *argv[]) {
 	address = getenv("WMII_ADDRESS");
 
 	ARGBEGIN{
-	case 'v':
-		printf("%s-" VERSION ", ©2007 Kris Maglione\n", argv0);
-		exit(0);
-	case 'a':
-		address = EARGF(usage());
+		case 'v':
+			printf("%s-" VERSION ", ©2007 Kris Maglione\n", argv0);
+			exit(0);
+		case 'a':
+			address = EARGF(usage());
 		break;
-	default:
-		usage();
+		default:
+			usage();
 	}ARGEND;
 
 	cmd = EARGF(usage());
@@ -374,7 +375,7 @@ main(int argc, char *argv[]) {
 	client = mixp_mount(address);
 	if(client == NULL)
 		fatal("%s\n", mixp_errbuf());
-	
+
 	for(tab = etab; tab->cmd; tab++)
 		if(strcmp(cmd, tab->cmd) == 0) break;
 	if(tab->cmd == 0)

@@ -182,4 +182,3 @@ static MIXP_THREAD ixp_pthread = {
 	.read = read,
 	.write = write,
 };
-

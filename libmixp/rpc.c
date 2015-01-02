@@ -64,7 +64,7 @@ sendrpc(MIXP_RPC *r, MIXP_FCALL *f)
 {
 	int ret;
 	MIXP_CLIENT *mux;
-	
+
 	ret = 0;
 	mux = r->mux;
 	/* assign the tag, add selves to response queue */

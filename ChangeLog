@@ -22,7 +22,7 @@
     * fixed broken dependency to pthread (now: libc-pthread)
 
 2008-05-14 Enrico Weigelt <weigelt@metux.de> [r208]
-	
+
     * fixed compiler warning on using long* as time_t* (explicit conversion via buffer var)
     * fixed a few compiler warnings about uninitialized variables in example client)
     * added soname to the .so output (ebuild was whining about "poor QA" ;-o)

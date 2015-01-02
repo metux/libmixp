@@ -15,57 +15,69 @@ struct MIXP_FCALL {
 			unsigned int msize;
 			char	*version;
 		} Tversion;
+
 		struct {
 			unsigned int msize;
 			char	*version;
 		} Rversion;
-		struct { 
+
+		struct {
 			unsigned short oldtag;
 		} Tflush;
-		
+
 		struct { /* Rerror */
 			char *ename;
 		} Rerror;
+
 		struct { /* Ropen, Rcreate */
 			MIXP_QID qid; /* +Rattach */
 			size_t iounit;
 		} Ropen;
+
 		struct { /* Ropen, Rcreate */
 			MIXP_QID qid; /* +Rattach */
 			size_t iounit;
 		} Rattach;
+
 		struct { /* Ropen, Rcreate */
 			MIXP_QID qid; /* +Rattach */
 			size_t iounit;
 		} Rcreate;
+
 		struct { /* Rauth */
 			MIXP_QID aqid;
 		} Rauth;
+
 		struct { /* Tauth, Tattach */
 			unsigned int	afid;
 			char		*uname;
 			char		*aname;
 		} Tauth;
+
 		struct { /* Tauth, Tattach */
 			unsigned int	afid;
 			char		*uname;
 			char		*aname;
 		} Tattach;
+
 		struct { /* Tcreate */
 			unsigned int	perm;
 			char		*name;
 			unsigned char	mode; /* +Topen */
 		} Tcreate;
+
 		struct { /* Tcreate */
 			unsigned int	perm;
 			char		*name;
 			unsigned char	mode; /* +Topen */
 		} Topen;
+
 		struct { /* Twalk */
 			unsigned int	newfid;
 			unsigned short	nwname;
 			char	*wname[MIXP_MAX_WELEM];
 		} Twalk;
+
 		struct { /* Rwalk */
 			unsigned short	nwqid;
 			MIXP_QID	wqid[MIXP_MAX_WELEM];
@@ -93,12 +105,12 @@ struct MIXP_FCALL {
 		} Tread;
 
 		/* Read reply */
-		struct { 
+		struct {
 			uint64_t	offset;
 			size_t		count;
 			char*		data;
 		} Rread;
-		
+
 		struct { /* Twstat, Rstat */
 			unsigned short	nstat;
 			char	*stat;
