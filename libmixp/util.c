@@ -18,7 +18,7 @@ ixp_mfatal(char *name, unsigned int size) {
 		bytes[] = " bytes\n";
 	char sizestr[8];
 	int i;
-	
+
 	i = sizeof(sizestr);
 	do {
 		sizestr[--i] = '0' + (size%10);

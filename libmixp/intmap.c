@@ -10,10 +10,10 @@
 #include "util.h"
 
 struct MIXP_INTLIST {
-	unsigned long		id;
+	unsigned long	id;
 	void*		aux;
 	MIXP_INTLIST	*link;
-	int             magic;
+	int		magic;
 };
 
 static unsigned long
@@ -26,7 +26,7 @@ nop(void *v) {
 	USED(v);
 }
 
-void mixp_intmap_init(MIXP_INTMAP *m, unsigned long nhash, void *hash, const char* name) 
+void mixp_intmap_init(MIXP_INTMAP *m, unsigned long nhash, void *hash, const char* name)
 {
 	m->nhash = nhash;
 	m->hash = hash;
@@ -35,7 +35,7 @@ void mixp_intmap_init(MIXP_INTMAP *m, unsigned long nhash, void *hash, const cha
 	mixp_thread->initrwlock(&m->lk);
 }
 
-void mixp_intmap_free(MIXP_INTMAP *map, void (*destroy)(void*)) 
+void mixp_intmap_free(MIXP_INTMAP *map, void (*destroy)(void*))
 {
 	int i;
 	MIXP_INTLIST *p, *nlink;
@@ -55,7 +55,7 @@ void mixp_intmap_free(MIXP_INTMAP *map, void (*destroy)(void*))
 	mixp_thread->rwdestroy(&map->lk);
 }
 
-void mixp_intmap_exec(MIXP_INTMAP *map, void (*run)(void*)) 
+void mixp_intmap_exec(MIXP_INTMAP *map, void (*run)(void*))
 {
 	int i;
 	MIXP_INTLIST *p, *nlink;
@@ -88,11 +88,11 @@ static void * __real_lookupkey(MIXP_INTMAP* map, unsigned long id)
 			return elem->aux;
 		elem = elem->link;
 	}
-	
+
 	return NULL;
 }
 
-void * mixp_intmap_lookupkey(MIXP_INTMAP *map, unsigned long id) 
+void * mixp_intmap_lookupkey(MIXP_INTMAP *map, unsigned long id)
 {
 	void *v;
 
@@ -133,13 +133,13 @@ static void * __real_insertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 
 #ifdef DEBUG
 	fprintf(mixp_debug_stream,"insertkey() [%s] added elem: id=%ld addr=%ld value=%ld next=%ld\n",
-	    map->name, (long)id, (long)elem, (long)value, (long)elem->link);
+		map->name, (long)id, (long)elem, (long)value, (long)elem->link);
 #endif
 
 	return NULL;
 }
 
-void * mixp_intmap_insertkey(MIXP_INTMAP *map, unsigned long id, void* value) 
+void * mixp_intmap_insertkey(MIXP_INTMAP *map, unsigned long id, void* value)
 {
 #ifdef DEBUG
 	fprintf(mixp_debug_stream,"insertkey [%s] id=%ld value=%ld\n", map->name, (long)id, (long)value);
@@ -149,7 +149,7 @@ void * mixp_intmap_insertkey(MIXP_INTMAP *map, unsigned long id, void* value)
 	mixp_thread->wlock(&map->lk);
 	ov = __real_insertkey(map, id, value);
 	mixp_thread->wunlock(&map->lk);
-	return ov;	
+	return ov;
 }
 
 static int __real_caninsertkey(MIXP_INTMAP* map, unsigned long id, void* value)
@@ -158,7 +158,7 @@ static int __real_caninsertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 	MIXP_INTLIST *elem=map->hash[hid];
 
 	while(elem)
-	{	
+	{
 		if (elem->id==id)
 			return 0;
 		elem = elem->link;
@@ -177,7 +177,7 @@ static int __real_caninsertkey(MIXP_INTMAP* map, unsigned long id, void* value)
 	return 1;
 }
 
-int mixp_intmap_caninsertkey(MIXP_INTMAP *map, unsigned long id, void *v) 
+int mixp_intmap_caninsertkey(MIXP_INTMAP *map, unsigned long id, void *v)
 {
 	mixp_thread->wlock(&map->lk);
 	int rv = __real_caninsertkey(map,id,v);
@@ -199,7 +199,7 @@ static void* __real_deletekey(MIXP_INTMAP* map, unsigned long id)
 #endif
 		return NULL;
 	}
-	
+
 	if (elem->id == id)
 	{
 		/* the first in line is our element */
@@ -243,7 +243,7 @@ static void* __real_deletekey(MIXP_INTMAP* map, unsigned long id)
 	return ov;
 }
 
-void* mixp_intmap_deletekey(MIXP_INTMAP *map, unsigned long id) 
+void* mixp_intmap_deletekey(MIXP_INTMAP *map, unsigned long id)
 {
 	void* ov;
 	mixp_thread->wlock(&map->lk);

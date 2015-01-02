@@ -62,7 +62,7 @@ size_t mixp_sendmsg(int fd, MIXP_MESSAGE *msg) {
 	unsigned char* buf = (unsigned char*)msg->data;
 	int x=0;
 	for (x=0; x<_size; x++)
-	    printf("%02X ", buf[x]);	
+		printf("%02X ", buf[x]);
 	printf("\n");
 #endif
 
@@ -107,12 +107,12 @@ mixp_recvmsg(int fd, MIXP_MESSAGE *msg) {
 
 	msg->end = msg->pos;
 
-#ifdef _DEBUG	
+#ifdef _DEBUG
 	printf("received: size=%d msize=%d\n", size, msize);
 	unsigned char* buf = (unsigned char*)msg->data;
 	int x=0;
 	for (x=0; x<size; x++)
-	    printf("%02X ", buf[x]);	
+		printf("%02X ", buf[x]);
 	printf("\n");
 #endif
 

@@ -78,6 +78,7 @@ static MIXP_FCALL *do_fcall(MIXP_CLIENT *c, MIXP_FCALL *fcall)
 	MIXP_FCALL *ret;
 	__init_errstream();
 	ret = muxrpc(c, fcall);
+
 	if(ret == NULL)
 	{
 #ifdef DEBUG
@@ -170,7 +171,7 @@ mixp_mountfd(int fd) {
 
 	mixp_fcall_free(fcall);
 	mixp_fcall_free(retfcall);
-	
+
 	fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 
 	fcall->type = P9_TAttach;
@@ -277,20 +278,20 @@ clunk(MIXP_CFID *f) {
 	fcall->fid  = f->fid;
 	if ((retfcall=do_fcall(c,fcall))==NULL)
 	{
-	    mixp_fcall_free(fcall);
-	    return 0;
+		mixp_fcall_free(fcall);
+		return 0;
 	}
 	else
 	{
-	    putfid(f);
-	    mixp_fcall_free(retfcall);
-	    mixp_fcall_free(fcall);
-	    return 1;
+		putfid(f);
+		mixp_fcall_free(retfcall);
+		mixp_fcall_free(fcall);
+		return 1;
 	}
 }
 
 int
-mixp_remove(MIXP_CLIENT *c, const char *path) 
+mixp_remove(MIXP_CLIENT *c, const char *path)
 {
 	MIXP_CFID *f;
 	if((f = walk(c, path)) == NULL)
@@ -303,15 +304,15 @@ mixp_remove(MIXP_CLIENT *c, const char *path)
 	MIXP_FCALL *retfcall = NULL;
 	if ((retfcall = do_fcall(c, fcall))==NULL)
 	{
-	    mixp_fcall_free(fcall);
-	    return 0;
+		mixp_fcall_free(fcall);
+		return 0;
 	}
 	else
 	{
-	    putfid(f);
-	    mixp_fcall_free(fcall);
-	    mixp_fcall_free(retfcall);
-	    return 1;
+		putfid(f);
+		mixp_fcall_free(fcall);
+		mixp_fcall_free(retfcall);
+		return 1;
 	}
 }
 
@@ -324,26 +325,26 @@ initfid(MIXP_CFID *f, MIXP_FCALL *fcall)
 	f->offset = 0;
 	f->iounit = min(fcall->Ropen.iounit, MIXP_MAX_MSG-17);
 	f->qid = fcall->Ropen.qid;
-	
+
 	if (!(f->iounit))
 	{
 #ifdef DEBUG
-	    fprintf(mixp_debug_stream,"initfid() iounit missing. fixing to %d\n", DEFAULT_IOUNIT);
+		fprintf(mixp_debug_stream,"initfid() iounit missing. fixing to %d\n", DEFAULT_IOUNIT);
 #endif
-	    f->iounit=DEFAULT_IOUNIT;
+		f->iounit=DEFAULT_IOUNIT;
 	}
-	
+
 	if (f->iounit < 0)
 	{
 #ifdef DEBUG
-	    fprintf(mixp_error_stream,"initfid() iounit <0: %ld .. fixing to %d\n", (long)f->iounit, DEFAULT_IOUNIT);
+		fprintf(mixp_error_stream,"initfid() iounit <0: %ld .. fixing to %d\n", (long)f->iounit, DEFAULT_IOUNIT);
 #endif
-	    f->iounit=DEFAULT_IOUNIT;
-	}    
+		f->iounit=DEFAULT_IOUNIT;
+	}
 }
 
 MIXP_CFID*
-mixp_create(MIXP_CLIENT *c, const char *filename, unsigned int perm, unsigned char mode) 
+mixp_create(MIXP_CLIENT *c, const char *filename, unsigned int perm, unsigned char mode)
 {
 	MIXP_CFID *f;
 	char *path = strdup(filename);
@@ -363,7 +364,7 @@ mixp_create(MIXP_CLIENT *c, const char *filename, unsigned int perm, unsigned ch
 	fcall->Tcreate.mode = mode;
 
 	MIXP_FCALL *retfcall;
-	if ((retfcall = do_fcall(c, fcall)) == NULL) 
+	if ((retfcall = do_fcall(c, fcall)) == NULL)
 	{
 		clunk(f);
 		f = NULL;
@@ -378,7 +379,7 @@ mixp_create(MIXP_CLIENT *c, const char *filename, unsigned int perm, unsigned ch
 }
 
 MIXP_CFID*
-mixp_open(MIXP_CLIENT *c, const char *name, unsigned char mode) 
+mixp_open(MIXP_CLIENT *c, const char *name, unsigned char mode)
 {
 	MIXP_CFID *f;
 
@@ -393,7 +394,7 @@ mixp_open(MIXP_CLIENT *c, const char *name, unsigned char mode)
 
 	MIXP_FCALL *retfcall;
 
-	if ((retfcall=do_fcall(c, fcall)) == NULL) 
+	if ((retfcall=do_fcall(c, fcall)) == NULL)
 	{
 		clunk(f);
 		mixp_fcall_free(fcall);
@@ -407,13 +408,13 @@ mixp_open(MIXP_CLIENT *c, const char *name, unsigned char mode)
 	return f;
 }
 
-int mixp_close(MIXP_CFID *f) 
+int mixp_close(MIXP_CFID *f)
 {
 	return clunk(f);
 }
 
 MIXP_STAT *
-mixp_stat(MIXP_CLIENT *c, const char *path) 
+mixp_stat(MIXP_CLIENT *c, const char *path)
 {
 	MIXP_MESSAGE msg;
 	MIXP_STAT *stat;
@@ -449,7 +450,7 @@ done:
 	return stat;
 }
 
-static long _pread(MIXP_CFID *f, void *buf, size_t count, int64_t offset) 
+static long _pread(MIXP_CFID *f, void *buf, size_t count, int64_t offset)
 {
 	__init_errstream();
 
@@ -468,7 +469,7 @@ static long _pread(MIXP_CFID *f, void *buf, size_t count, int64_t offset)
 		fcall->fid  = f->fid;
 		fcall->Tread.offset = offset;
 		fcall->Tread.count = n;
-		
+
 		if ((retfcall = do_fcall(f->client, fcall)) == NULL)
 		{
 			fprintf(mixp_error_stream,"MIXP: _pread() fcall failed\n");
@@ -497,7 +498,7 @@ err:
 	return -1;
 }
 
-long mixp_read(MIXP_CFID *f, void *buf, size_t count) 
+long mixp_read(MIXP_CFID *f, void *buf, size_t count)
 {
 	int n;
 
@@ -509,7 +510,7 @@ long mixp_read(MIXP_CFID *f, void *buf, size_t count)
 	return n;
 }
 
-long mixp_pread(MIXP_CFID *f, void *buf, long count, int64_t offset) 
+long mixp_pread(MIXP_CFID *f, void *buf, long count, int64_t offset)
 {
 	int n;
 
@@ -519,11 +520,11 @@ long mixp_pread(MIXP_CFID *f, void *buf, long count, int64_t offset)
 	return n;
 }
 
-static long _pwrite(MIXP_CFID *f, const void *buf, long count, int64_t offset) 
+static long _pwrite(MIXP_CFID *f, const void *buf, long count, int64_t offset)
 {
 	int n, len;
 	len = 0;
-	do 
+	do
 	{
 		MIXP_FCALL *fcall = (MIXP_FCALL*)calloc(1,sizeof(MIXP_FCALL));
 		MIXP_FCALL *retfcall = NULL;
@@ -536,8 +537,8 @@ static long _pwrite(MIXP_CFID *f, const void *buf, long count, int64_t offset)
 		fcall->Twrite.count = n;
 		if ((retfcall = do_fcall(f->client, fcall)) == NULL)
 		{
-		    mixp_fcall_free(fcall);
-		    return -1;
+			mixp_fcall_free(fcall);
+			return -1;
 		}
 
 		f->offset += retfcall->Rwrite.count;

@@ -19,35 +19,35 @@
 
 int ixp_serversock_tcp(const char* addr, int port, char** errstr)
 {
-    int fd;
-    struct sockaddr_in in_addr;
+	int fd;
+	struct sockaddr_in in_addr;
 
-    signal(SIGPIPE,SIG_IGN);
-    if ((fd=socket(AF_INET, SOCK_STREAM, 0))<0)
-    {
-	*errstr = "cannot open socket";
-	return -1;
-    }
+	signal(SIGPIPE,SIG_IGN);
+	if ((fd=socket(AF_INET, SOCK_STREAM, 0))<0)
+	{
+		*errstr = "cannot open socket";
+		return -1;
+	}
 
-    in_addr.sin_family = AF_INET;
-    in_addr.sin_port = htons(port);
-    in_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+	in_addr.sin_family = AF_INET;
+	in_addr.sin_port = htons(port);
+	in_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    if (bind(fd,(struct sockaddr*)&in_addr, sizeof(struct sockaddr_in))<0)
-    {
-	*errstr = "cannot bind socket";
-	close(fd);
-	return -1;
-    }
-    
-    if (listen(fd, MIXP_MAX_CACHE)<0)
-    {
-	*errstr = "cannot listen on socket";
-    	close(fd);
-	return -1;
-    }
-    
-    return fd;
+	if (bind(fd,(struct sockaddr*)&in_addr, sizeof(struct sockaddr_in))<0)
+	{
+		*errstr = "cannot bind socket";
+		close(fd);
+		return -1;
+	}
+
+	if (listen(fd, MIXP_MAX_CACHE)<0)
+	{
+		*errstr = "cannot listen on socket";
+		close(fd);
+		return -1;
+	}
+
+	return fd;
 }
 
 MIXP_CONNECTION *
@@ -59,8 +59,8 @@ ixp_listen(MIXP_SERVER *s, int fd, void *aux,
 
 	if (s==NULL)
 	{
-	    fprintf(mixp_error_stream,"ixp_listen() NULL server struct passed\n");
-	    return NULL;
+		fprintf(mixp_error_stream,"ixp_listen() NULL server struct passed\n");
+		return NULL;
 	}
 
 	c = calloc(1,sizeof(MIXP_CONNECTION));

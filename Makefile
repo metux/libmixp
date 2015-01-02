@@ -12,20 +12,20 @@ lib:
 client:
 	make -C cmd
 
-install-lib:	
+install-lib:
 	make -C libmixp install
 
 install-pkgconfig:	libmixp.pc
 	mkdir -p $(DESTDIR)$(PKGCONFIGDIR)
 	cp libmixp.pc $(DESTDIR)$(PKGCONFIGDIR)
-	
+
 install-includes:	include/9p-mixp/*.h
 	mkdir -p $(DESTDIR)$(INCLUDEDIR)/9p-mixp
 	for i in include/9p-mixp/*.h ; do cp $$i $(DESTDIR)$(INCLUDEDIR)/9p-mixp ; done
 
 install:	install-pkgconfig install-includes install-lib
 
-clean:	
+clean:
 	rm -f *.o *.a *.so *.pc
 	make -C libmixp clean
 	make -C cmd clean

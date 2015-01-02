@@ -144,7 +144,7 @@ static int dial_tcp_2(const char *host, int port)
 	sockaddr_in sa;
 	int fd;
 
-    	fd = sock_tcp_2(host, port, &sa);
+	fd = sock_tcp_2(host, port, &sa);
 	if(fd == -1)
 		return fd;
 
@@ -167,7 +167,7 @@ announce_tcp(const char *host) {
 	sockaddr_in sa;
 	int fd;
 	int port;
-	
+
 	port = get_port(host);
 
 	fd = sock_tcp_2(host, port, &sa);
@@ -230,12 +230,12 @@ int mixp_dial_addr(MIXP_SERVER_ADDRESS *addr)
 {
 	switch (addr->proto)
 	{
-	    case P9_PROTO_TCP:
-		return dial_tcp_2(addr->hostname, addr->port);
-	    case P9_PROTO_UNIX:
-		return dial_unix(addr->path);
-	    default:
-		return dial_tcp_2(addr->hostname, addr->port);
+		case P9_PROTO_TCP:
+			return dial_tcp_2(addr->hostname, addr->port);
+		case P9_PROTO_UNIX:
+			return dial_unix(addr->path);
+		default:
+			return dial_tcp_2(addr->hostname, addr->port);
 	}
 }
 
@@ -244,7 +244,7 @@ int mixp_dial(const char *address)
 	int ret;
 	MIXP_SERVER_ADDRESS* addr = mixp_srv_addr_parse(address);
 	if (addr==NULL)
-	    return -1;
+		return -1;
 	ret = mixp_dial_addr(addr);
 	mixp_srv_addr_free(addr);
 	return ret;
