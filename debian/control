@@ -1,0 +1,13 @@
+Source: libmixp
+Section: libs
+Priority: extra
+Maintainer: Enrico Weigelt, metux IT service <weigelt@metux.de>
+Standards-Version: 3.9.3
+Build-Depends: debhelper (>= 7)
+
+Package: libmixp
+Architecture: any
+Pre-Depends: debconf
+Depends:  ${misc:Depends}
+Description: small 9P protocol library
+
