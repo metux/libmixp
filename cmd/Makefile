@@ -12,7 +12,7 @@ all:		ixpc
 ixp_client:	ixp_client.o util.o
 	$(CC) -o $@ $^ $(LIBMIXP)
 
-ixpc:		ixpc.o
+ixpc:		ixpc.nopic.o
 	$(CC) -o $@ $^ $(LIBMIXP)
 
 clean:
