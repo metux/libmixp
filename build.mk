@@ -2,7 +2,7 @@
 # Author(s): Enrico Weigelt, metux IT services <weigelt@metux.de>
 #
 
-VERSION=3.6.2
+VERSION=0.2.0
 PREFIX?=/usr
 LIBDIR?=$(PREFIX)/lib
 INCLUDEDIR?=$(PREFIX)/include
